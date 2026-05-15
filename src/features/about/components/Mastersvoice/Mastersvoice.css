@@ -1,0 +1,300 @@
+
+
+/* ============================================
+   SECTION WRAPPER
+   ============================================ */
+.mastersvoice-section {
+  width: 100%;
+  max-width: 1432px; /* layout-width: 1432 */
+  margin: 0 auto;
+  background: #FFFFFF;
+  padding: 69px 40px 40px 40px; /* Reduced bottom padding as per previous request */
+  box-sizing: border-box;
+  position: relative;
+  overflow: visible;
+}
+
+/* ============================================
+   INNER CONTAINER — 2-column grid
+   ============================================ */
+.mastersvoice-inner {
+  max-width: 1200px; /* inner layout-width: 1200 */
+  height: auto; /* Allow auto height for content spacing */
+  min-height: 528px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 528px; /* rightside-image-width: 528 */
+  column-gap: 80px; /* column-gap: 80px */
+  align-items: center;
+}
+
+/* ============================================
+   LEFT SIDE — Text Content
+   ============================================ */
+.mastersvoice-left {
+  display: flex;
+  flex-direction: column;
+}
+
+/* "A Master's Voice" label */
+.mastersvoice-label {
+  width: 184.61px;
+  height: 32px;
+  font-family: var(--font-jost), sans-serif;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 32px;
+  letter-spacing: 0px;
+  color: #6C5E06;
+  margin: 0 0 16px 0;
+  vertical-align: middle;
+}
+
+/* Large quote */
+.mastersvoice-quote {
+  width: 528px;
+  height: auto;
+  min-height: 200px;
+  font-family: var(--font-jost), sans-serif;
+  font-weight: 400;
+  font-size: 36px;
+  line-height: 40px;
+  letter-spacing: 0px;
+  color: #A42829;
+  margin: 0 0 24px 0;
+  padding: 0;
+  border: none;
+}
+
+/* Weaver name */
+.mastersvoice-name {
+  width: 528px;
+  height: 24px;
+  font-family: var(--font-jost), sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 3.2px;
+  text-transform: uppercase;
+  color: #1B1D0E;
+  margin: 0 0 4px 0;
+}
+
+/* Weaver title */
+.mastersvoice-title {
+  width: 528px;
+  height: 20px;
+  font-family: var(--font-jost), sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0px;
+  color: #5A413D;
+  margin: 0 0 20px 0;
+}
+
+/* Divider */
+.mastersvoice-divider {
+  width: 100%;
+  max-width: 528px;
+  height: 1px;
+  background: #E0D8CC;
+  margin-bottom: 20px;
+}
+
+/* Body paragraph */
+.mastersvoice-body {
+  width: 528px;
+  height: auto;
+  min-height: 78px;
+  font-family: var(--font-jost), sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 26px;
+  letter-spacing: 0px;
+  color: #5A413D;
+  margin: 0;
+}
+
+/* ============================================
+   RIGHT SIDE — Image wrapper
+   ============================================ */
+.mastersvoice-right {
+  position: relative;
+  width: 528px;
+  height: 528px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Photo fills the 528×528 box */
+.mastersvoice-photo {
+  width: 528px;
+  height: 528px;
+  object-fit: cover;
+  display: block;
+  border-radius: 2px;
+}
+
+/* ============================================
+   RED STAT BADGE - Overlapping Image
+   ============================================ */
+.mastersvoice-badge {
+  position: absolute;
+  width: 160px;
+  height: 160px;
+  background: #A42829;
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  bottom: -40px; 
+  right: -80px; /* Overlap right side as requested */
+  z-index: 2;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.mastersvoice-badge-number {
+  width: 50.31px;
+  height: 36px;
+  font-family: var(--font-noto-serif), serif;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 36px;
+  color: #FFFFFF;
+  text-align: center;
+  margin: 0;
+}
+
+.mastersvoice-badge-text {
+  width: auto;
+  height: 30px;
+  font-family: var(--font-manrope), sans-serif;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 15px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-align: center;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+@media (max-width: 1200px) {
+  .mastersvoice-section {
+    max-width: 100%;
+    height: auto;
+    padding: 80px 20px;
+  }
+  
+  .mastersvoice-inner {
+    grid-template-columns: 1fr;
+    height: auto;
+    row-gap: 60px;
+    justify-items: center;
+  }
+  
+  .mastersvoice-left {
+    width: 100%;
+    max-width: 600px;
+    align-items: center;
+    text-align: center;
+  }
+
+  .mastersvoice-quote, .mastersvoice-body, .mastersvoice-divider, .mastersvoice-name, .mastersvoice-title, .mastersvoice-label {
+      width: 100%;
+      height: auto;
+      text-align: center;
+      min-height: unset;
+  }
+
+  .mastersvoice-quote {
+      font-size: 32px;
+      margin-bottom: 24px;
+  }
+
+  .mastersvoice-right {
+    width: 100%;
+    max-width: 528px;
+    height: auto;
+    order: -1; /* Image on top for mobile */
+    justify-content: center;
+  }
+
+  .mastersvoice-photo {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1/1;
+  }
+
+  .mastersvoice-badge {
+    right: -20px;
+    bottom: -30px;
+    transform: none;
+    position: absolute;
+  }
+}
+
+@media (max-width: 768px) {
+  .mastersvoice-section {
+    padding: 40px 20px 40px 20px; /* Reduced bottom padding from 100px to 40px */
+  }
+
+  .mastersvoice-inner {
+      min-height: unset; /* Remove min-height on mobile to reduce space */
+  }
+
+  .mastersvoice-quote {
+    font-size: 24px;
+    line-height: 32px;
+  }
+  
+  .mastersvoice-label {
+    font-size: 18px;
+    width: 100%;
+  }
+
+  .mastersvoice-badge {
+    width: 130px;
+    height: 130px;
+    right: -10px;
+    bottom: -40px;
+    padding: 12px;
+  }
+
+  .mastersvoice-badge-number {
+    font-size: 26px;
+    line-height: 32px;
+    width: auto;
+  }
+
+  .mastersvoice-badge-text {
+    font-size: 9px;
+    letter-spacing: 1px;
+    width: auto;
+  }
+}
+
+@media (max-width: 480px) {
+    .mastersvoice-quote {
+        font-size: 22px;
+        line-height: 30px;
+    }
+
+    .mastersvoice-badge {
+        width: 110px;
+        height: 110px;
+        right: 0;
+        bottom: -30px;
+    }
+
+    .mastersvoice-badge-number {
+        font-size: 22px;
+    }
+}

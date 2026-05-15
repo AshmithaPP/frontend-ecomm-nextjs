@@ -1,0 +1,79 @@
+/* Container is handled by parent, here we handle tabs */
+
+/* Tabs UI */
+.care-tabs {
+    height: 38px;
+    border-bottom: 0.97px solid #E5E7EB;
+    margin-top: 24.36px;
+    width: 100%;
+}
+
+.care-tab {
+    cursor: pointer;
+    font-family: 'Jost', sans-serif;
+    font-size: 15.59px;
+    line-height: 15.59px;
+    letter-spacing: -0.49px;
+    height: 37px; /* 1px less than container to allow bottom border */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px; /* Slight padding to clickable area */
+}
+
+.active-tab {
+    font-weight: 600;
+    color: #8B2635; /* Same as the user requested color #8b2829 from spec or standard theme */
+    border-bottom: 1.95px solid #8B2635;
+    transform: translateY(1px); /* Ensure border covers track */
+}
+
+.inactive-tab {
+    font-weight: 400;
+    color: #4B5563;
+    transition: color 0.3s ease;
+}
+
+.inactive-tab:hover {
+    color: #8B2635;
+}
+
+/* Tab Content */
+.care-content {
+    padding-top: 15px; /* Offset to match the 85.75 top layout */
+}
+
+.care-item {
+    height: 23px;
+}
+
+.care-icon {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
+.care-text {
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    font-size: 15.59px;
+    line-height: 100%;
+    letter-spacing: -0.49px;
+    color: #374151;
+}
+
+/* Responsive adjustment */
+@media (max-width: 768px) {
+    .care-tab {
+        font-size: 14px;
+        margin-left: 15px !important;
+    }
+    
+    .care-tab:first-child {
+        margin-left: 0 !important;
+    }
+    
+    .care-text {
+        font-size: 14px;
+    }
+}

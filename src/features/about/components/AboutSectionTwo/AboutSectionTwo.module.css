@@ -1,0 +1,196 @@
+/* AboutSectionTwo.module.css */
+
+.aboutSectionWrapper {
+    width: 100%;
+    max-width: 1437px; /* layout-width: 1437 */
+    height: 906px; /* height: 906 */
+    margin: 0 auto;
+    padding: 128px 40px; /* padding-top: 128px; padding-right: 40px; padding-bottom: 128px; padding-left: 40px; */
+    background: #FFFFFF;
+    position: relative;
+    overflow: visible; /* To allow image overlap if needed */
+}
+
+/* We use a relative container for absolute positioning of children as per specs */
+.aboutContainer {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    max-width: 1437px;
+    margin: 0 auto;
+}
+
+.aboutImageWrapper {
+    position: absolute;
+    width: 598.5px;
+    height: 748.125px;
+    top: -49.06px; /* top: -49.06px */
+    left: 32px; /* left: 32px */
+    opacity: 1;
+    box-shadow: 0px 8px 10px -6px #0000001A, 0px 20px 25px -5px #0000001A;
+    background: #FFFFFF;
+}
+
+.aboutImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.aboutContentColumn {
+    position: absolute;
+    width: 598.5px; /* layout-width: 598.5 */
+    height: 497px; /* height: 497 */
+    top: 76.5px; /* top: 76.5px */
+    left: 726.5px; /* left: 726.5px */
+    display: flex;
+    flex-direction: column;
+    gap: 24px; /* Reduced space */
+    opacity: 1;
+}
+
+.aboutTitleBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.aboutTitle {
+    width: 598.5px;
+    height: 40px;
+    font-family: var(--font-jost), sans-serif;
+    font-weight: 600;
+    font-style: normal;
+    font-size: 36px;
+    line-height: 40px;
+    letter-spacing: 0px;
+    color: #A42829;
+    margin: 0;
+    vertical-align: middle;
+}
+
+.aboutDivider {
+    width: 96px;
+    height: 1px;
+    background: #6C5E06;
+    opacity: 1;
+}
+
+.aboutDescription1 {
+    width: 598.5px;
+    height: 128px;
+    font-family: var(--font-jost), sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 32px;
+    letter-spacing: 0px;
+    text-align: justify;
+    color: #5A413D;
+    margin: 0;
+    vertical-align: middle;
+}
+
+.aboutDescription2 {
+    width: 598.5px;
+    height: 160px;
+    font-family: var(--font-jost), sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 32px;
+    letter-spacing: 0px;
+    text-align: justify;
+    color: #5A413D;
+    margin: 0;
+    vertical-align: middle;
+}
+
+.aboutQuote {
+    width: 598.5px;
+    height: 56px;
+    font-family: var(--font-noto-serif), serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 20px;
+    line-height: 28px;
+    letter-spacing: 0px;
+    color: #A42829;
+    margin: 0;
+    vertical-align: middle;
+}
+
+/* Responsive Overrides */
+@media (max-width: 1200px) {
+    .aboutSectionWrapper {
+        height: auto;
+        padding: 80px 40px;
+        max-width: 100%;
+    }
+    
+    .aboutContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 60px;
+        height: auto;
+        position: static;
+    }
+
+    .aboutImageWrapper, .aboutContentColumn {
+        position: static;
+        width: 100%;
+        max-width: 598.5px;
+        height: auto;
+    }
+    
+    .aboutImageWrapper {
+        aspect-ratio: 598.5 / 748.125;
+    }
+
+    .aboutTitle, .aboutDescription1, .aboutDescription2, .aboutQuote {
+        width: 100%;
+        height: auto;
+        text-align: center;
+    }
+
+    .aboutTitleBlock {
+        align-items: center;
+    }
+
+    .aboutDivider {
+        margin: 0 auto;
+    }
+
+    .aboutQuote {
+        text-align: center;
+        margin-top: 24px;
+    }
+}
+
+@media (max-width: 768px) {
+    .aboutSectionWrapper {
+        padding: 60px 20px;
+    }
+    
+    .aboutTitle {
+        font-size: 28px;
+        line-height: 34px;
+    }
+    
+    .aboutDescription1, .aboutDescription2 {
+        font-size: 16px;
+        line-height: 28px;
+        text-align: center;
+    }
+    
+    .aboutQuote {
+        font-size: 18px;
+        line-height: 26px;
+        margin-top: 16px;
+    }
+
+    .aboutContainer {
+        gap: 40px;
+    }
+}
+

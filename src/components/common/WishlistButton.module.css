@@ -1,0 +1,29 @@
+/* WishlistButton.module.css */
+
+.wishlistBtn {
+    width: 40px;
+    height: 40px;
+    background: #FFFFFF;
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    padding: 0;
+}
+
+.wishlistBtn:hover {
+    transform: scale(1.1);
+}
+
+.wishlistBtn i {
+    font-size: 1.2rem;
+    color: #4B5563;
+}
+
+.wishlistBtn.liked i {
+    color: #DC2626;
+}

@@ -1,0 +1,202 @@
+.product-info-wrapper {
+    width: 100%;
+}
+
+/* Badge & Headers */
+.bridal-badge {
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: -0.5px;
+    color: #2D5F4F;
+}
+
+.product-title {
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+    color: #111827;
+}
+
+.product-subtitle {
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
+    letter-spacing: -0.5px;
+    color: #4B5563;
+}
+
+/* Ratings */
+.reviews-count {
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: -0.5px;
+    color: #4B5563;
+}
+
+/* Price Card */
+.price-card {
+    background: #FFFCF4;
+    border: 1px solid rgba(201, 169, 97, 0.2); 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.current-price {
+    font-family: 'Jost', sans-serif;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 40px;
+    letter-spacing: -0.5px;
+    color: #8B2635;
+}
+
+.original-price {
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 32px;
+    letter-spacing: -0.5px;
+    text-decoration-line: line-through;
+    color: #9CA3AF;
+}
+
+.discount-badge {
+    padding: 2px 10px;
+    background: #EAF7EB;
+    border-radius: 4px;
+    font-family: 'Jost', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: -0.5px;
+    color: #009A11;
+    text-align: center;
+}
+
+.taxes-text {
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: -0.5px;
+    color: #4B5563;
+}
+
+.emi-text {
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: -0.5px;
+    color: #2D5F4F;
+}
+
+/* Stock Alert */
+.stock-alert {
+    background: #FEF2F2;
+    border: 1px solid #FECACA;
+    border-radius: 8px;
+    height: 78px;
+}
+
+.stock-title {
+    font-family: 'Jost', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    color: #B91C1C;
+    line-height: 24px;
+    letter-spacing: -0.5px;
+}
+
+.stock-subtitle {
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    color: #DC2626;
+    line-height: 20px;
+    letter-spacing: -0.5px;
+}
+
+.viewing-count {
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    color: #4B5563;
+    line-height: 16px;
+    letter-spacing: -0.5px;
+    text-align: right;
+}
+
+/* Buttons */
+.btn-buy-now {
+    height: 60px;
+    border-radius: 8px;
+    background-color: #A42829 !important;
+    border: 1px solid #E5E7EB;
+    box-shadow: 0px 10px 15px 0px rgba(0, 0, 0, 0.1), 0px 4px 6px 0px rgba(0, 0, 0, 0.1);
+    color: #FFFFFF !important;
+    font-family: 'Jost', sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 18px;
+    letter-spacing: -0.5px;
+}
+
+.btn-buy-now:hover {
+    background-color: #8b2123 !important;
+}
+
+.btn-add-cart {
+    height: 64px;
+    border-radius: 8px;
+    background-color: #FFFFFF !important;
+    border: 2px solid #A42829;
+    color: #A42829 !important;
+    font-family: 'Jost', sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 18px;
+    letter-spacing: -0.5px;
+}
+
+.btn-add-cart:hover {
+    background-color: #F8F9FA !important;
+}
+
+.btn-whatsapp {
+    height: 60px;
+    border-radius: 8px;
+    background-color: #2D5F4F !important;
+    border: 1px solid #E5E7EB;
+    color: #FFFFFF !important;
+    font-family: 'Jost', sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 18px;
+    letter-spacing: -0.5px;
+}
+
+.btn-whatsapp:hover {
+    background-color: #204539 !important;
+}
+
+@media (max-width: 768px) {
+    .product-title {
+        font-size: 28px;
+    }
+    .current-price {
+        font-size: 28px;
+    }
+    .original-price {
+        font-size: 20px;
+    }
+    .btn-row {
+        flex-direction: column;
+    }
+}

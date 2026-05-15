@@ -1,0 +1,389 @@
+/* ShopByCollections.module.css */
+
+.collectionsSection {
+    padding: 1.5rem 1.5rem;
+    max-width: 1440px;
+    margin: 0 auto;
+    position: relative;
+    font-family: 'Jost', sans-serif;
+}
+
+.sectionHeader {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.title {
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 1.2;
+    color: #000000;
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #4B5563;
+}
+
+/* CAROUSEL */
+.carouselWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    max-width: 1211px;
+    margin: 0 auto;
+}
+
+.carouselContainer {
+    width: 100%;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.carouselContainer::-webkit-scrollbar {
+    display: none;
+}
+
+.productsTrack {
+    display: flex;
+    gap: 21px;
+    padding: 10px 0;
+}
+
+/* CARD ITEM WRAPPER — holds card + text below */
+.cardItem {
+    flex: 0 0 287px;
+    min-width: 287px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* PRODUCT CARD — image only */
+.productCard {
+    width: 287px;
+    height: 369px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #FFFFFF;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.productCard:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.imageWrapper {
+    position: relative;
+    width: 100%;
+    height: 369px;
+    overflow: hidden;
+}
+
+.productImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: scale 0.3s ease;
+}
+
+.productCard:hover .productImage {
+    scale: 1.05;
+}
+
+/* BADGES AND ICONS */
+.discountBadge {
+    position: absolute;
+    top: 19px;
+    left: 15px;
+    background: #10B981;
+    color: #FFFFFF;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.wishlistContainer {
+    position: absolute;
+    top: 16px;
+    right: 15px;
+}
+
+.wishlistBtn {
+    width: 40px;
+    height: 40px;
+    background: #FFFFFF;
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.wishlistBtn:hover {
+    transform: scale(1.1);
+}
+
+.wishlistBtn i {
+    font-size: 1.2rem;
+    color: #4B5563;
+}
+
+.wishlistBtn.liked i {
+    color: #DC2626;
+}
+
+/* ADD TO CART OVERLAY */
+.addToCartOverlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 286px;
+    height: 60px;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+}
+
+.productCard:hover .addToCartOverlay {
+    transform: translateY(0);
+}
+
+.cartIconImage {
+    width: 27px;
+    height: 27px;
+    color: #FFFFFF;
+}
+
+.addToCartText {
+    color: #FFFFFF;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 1;
+}
+
+/* ── PRODUCT INFO — OUTSIDE CARD, BELOW ── */
+.productInfo {
+    width: 287px;
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+}
+
+.productTitle {
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 18px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    color: #000000;
+    width: 230px;
+    height: 26px;
+    margin: 0 auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.priceContainer {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    width: 171px;
+    height: 24px;
+    margin: 0 auto;
+}
+
+.discountedPrice {
+    font-family: 'Jost', sans-serif;
+    font-weight: 600;
+    font-style: normal;
+    font-size: 18px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    color: #000000;
+}
+
+.originalPrice {
+    font-family: 'Jost', sans-serif;
+    font-weight: 600;
+    font-style: normal;
+    font-size: 18px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    color: #939393;
+    text-decoration: line-through;
+}
+
+/* ARROW BUTTONS */
+.arrowLeft,
+.arrowRight {
+    position: absolute;
+    top: calc(369px / 2);
+    transform: translateY(-50%);
+    z-index: 10;
+}
+
+.arrowLeft {
+    left: -20px;
+}
+
+.arrowRight {
+    right: -20px;
+}
+
+.arrowBtn {
+    width: 40px;
+    height: 40px;
+    background: #A42829;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transition: background 0.2s ease, opacity 0.2s ease;
+    padding: 0;
+    flex-shrink: 0;
+}
+
+.arrowBtn.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.arrowSvg {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+/* EXPLORE MORE BUTTON */
+.exploreMoreBtn {
+    display: block;
+    margin: 1.5rem auto 0 auto;
+    width: 215px;
+    height: 67px;
+    background: #A42829;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 4px;
+    font-size: 20px;
+    font-weight: 400;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(164, 40, 41, 0.2);
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.exploreMoreBtn:hover {
+    background: #8b2021;
+    transform: translateY(-2px);
+}
+
+.footerActions {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
+
+/* SKELETON LOADERS */
+.skeletonCard {
+    width: 287px;
+    height: 369px;
+    background: #f0f0f0;
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+}
+
+.skeletonCard::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0,
+        rgba(255, 255, 255, 0.2) 20%,
+        rgba(255, 255, 255, 0.5) 60%,
+        rgba(255, 255, 255, 0)
+    );
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+@media (max-width: 1220px) {
+    .arrowLeft {
+        left: 5px;
+    }
+
+    .arrowRight {
+        right: 5px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .cardItem {
+        flex: 0 0 287px;
+    }
+}
+
+@media (max-width: 992px) {
+    .cardItem {
+        flex: 0 0 287px;
+    }
+}
+
+@media (max-width: 576px) {
+    .cardItem {
+        flex: 0 0 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .productCard {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .productInfo {
+        width: 100%;
+        max-width: 300px;
+    }
+}

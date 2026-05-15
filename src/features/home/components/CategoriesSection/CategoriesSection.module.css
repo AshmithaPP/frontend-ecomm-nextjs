@@ -1,0 +1,73 @@
+.sectionContainer {
+    max-width: 1380px;
+    margin: 30px auto;
+    /* Centered, top margin for separation from Hero */
+    padding: 0 15px;
+}
+
+.titleHeader {
+    text-align: center;
+    margin-bottom: 40px;
+    font-family: 'Jost', sans-serif;
+    color: #333333;
+}
+
+.carouselWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0 40px;
+}
+
+.scrollContainer {
+    display: flex;
+    gap: 30px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 20px 0;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.scrollContainer::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
+}
+
+.cardWrapper {
+    flex: 0 0 auto;
+}
+
+.arrowLeft, .arrowRight {
+    position: absolute;
+    z-index: 10;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.arrowLeft {
+    left: -10px;
+}
+
+.arrowRight {
+    right: -10px;
+}
+
+@media (max-width: 1200px) {
+    .sectionContainer {
+        max-width: 100%;
+    }
+    .carouselWrapper {
+        padding: 0 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .carouselWrapper {
+        padding: 0 10px;
+    }
+    .arrowLeft, .arrowRight {
+        display: none; /* Use touch scroll on mobile */
+    }
+}

@@ -1,0 +1,464 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap');
+
+:root {
+    --primary-maroon: #800000;
+    --text-dark: #1B1D0E;
+    --text-muted: #5A413D;
+    --accent-olive: #6C5E06;
+    --bg-light: #F7F7F7;
+    --bg-card: #FFFFFF;
+    --bg-success-accent: #E4E4CC;
+    --bg-note: #F5F5DC;
+    --border-gray: #CCCCCC;
+    --border-accent-light: #6C5E061A;
+}
+
+.order-conf-wrapper {
+    background-color: var(--bg-card);
+    min-height: 100vh;
+    padding: 30px 15px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.order-conf-container {
+    width: 100%;
+    max-width: 1142px;
+    height: auto;
+    background: var(--bg-light);
+    border: 1px solid var(--border-gray);
+    border-radius: 12px;
+    opacity: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0 auto;
+}
+
+.order-conf-inner-layout {
+    width: 100%;
+    max-width: 1024px;
+    min-height: auto;
+    padding: 20px 48px 40px 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    opacity: 1;
+}
+
+/* Header Section */
+.order-conf-status-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+}
+
+.order-conf-checkmark-box {
+    width: 80px;
+    height: 72px;
+    background: var(--bg-success-accent);
+    border: 1px solid var(--border-accent-light);
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.order-conf-checkmark-inner {
+    width: 32px;
+    height: 32px;
+    background: #2E7D32;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 16px;
+}
+
+.order-conf-title {
+    max-width: 500.11px;
+    width: 100%;
+    font-family: 'Jost', sans-serif;
+    font-weight: 700;
+    font-size: clamp(32px, 5vw, 60px);
+    line-height: normal;
+    letter-spacing: -3px;
+    color: var(--primary-maroon);
+    margin: 0;
+}
+
+.order-conf-subtext {
+    max-width: 666.12px;
+    width: 100%;
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    font-size: clamp(16px, 2vw, 20px);
+    line-height: 1.4;
+    color: var(--text-muted);
+    margin: 0 auto;
+}
+
+/* Main Content Layout */
+.order-conf-content-grid {
+    display: flex;
+    gap: 32px;
+    width: 100%;
+    max-width: 928px;
+}
+
+.order-conf-left-column {
+    flex: 1;
+    max-width: 528px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.order-conf-right-column {
+    flex: 1;
+    max-width: 368px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+/* Summary Box */
+.order-conf-summary-box {
+    width: 100%;
+    background: var(--bg-card);
+    border-radius: 4px;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.order-conf-summary-title {
+    font-family: 'Jost', sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 32px;
+    color: var(--primary-maroon);
+    margin-bottom: 8px;
+}
+
+.order-conf-summary-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+}
+
+.order-conf-summary-item {
+    flex: 1;
+    min-width: 200px;
+}
+
+.order-conf-item-label {
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 20px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(27, 29, 14, 0.5);
+}
+
+.order-conf-item-value {
+    width: 232px;
+    height: 28px;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 28px;
+    color: var(--text-dark);
+}
+
+.order-conf-total-value {
+    font-family: 'Manrope', sans-serif;
+    color: var(--primary-maroon);
+    font-weight: 700;
+    font-size: 18px;
+}
+
+/* Product Box */
+.order-conf-product-box {
+    width: 100%;
+    min-height: 224px;
+    background: #FFFFFF;
+    border-radius: 4px;
+    padding: 24px;
+    display: flex;
+    gap: 32px;
+}
+
+.order-conf-product-image-container {
+    width: 128px;
+    height: 176px;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #eee;
+}
+
+.order-conf-product-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+}
+
+.order-conf-product-badge {
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 15px;
+    letter-spacing: 2.4px;
+    text-transform: uppercase;
+    color: var(--accent-olive);
+}
+
+.order-conf-product-name {
+    font-family: 'Jost', sans-serif;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 32px;
+    color: var(--text-dark);
+    margin: 0;
+}
+
+.order-conf-product-qty {
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--text-muted);
+}
+
+.order-conf-product-price {
+    font-family: 'Jost', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 28px;
+    color: var(--primary-maroon);
+}
+
+/* Delivery Details */
+.order-conf-delivery-box {
+    width: 100%;
+    background: #E4E4D3;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.order-conf-delivery-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.order-conf-delivery-title {
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 28px;
+    color: var(--primary-maroon);
+    margin: 0;
+}
+
+.order-conf-transport-icon {
+    width: 21.31px;
+    height: 15.06px;
+    filter: sepia(1) saturate(5) hue-rotate(20deg);
+}
+
+.order-conf-delivery-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.order-conf-customer-name {
+    font-family: 'Jost', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 22.75px;
+    color: var(--text-dark);
+    margin-bottom: 4px;
+}
+
+.order-conf-customer-address {
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 22.75px;
+    color: var(--text-muted);
+    white-space: pre-line;
+    margin-bottom: 12px;
+}
+
+.order-conf-customer-phone {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 22.75px;
+    color: var(--text-muted);
+}
+
+.order-conf-arrival-section {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.order-conf-arrival-label {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 16.5px;
+    letter-spacing: 1.1px;
+    text-transform: uppercase;
+    color: var(--accent-olive);
+}
+
+.order-conf-arrival-date {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 28px;
+    color: var(--text-dark);
+}
+
+.order-conf-note-box {
+    width: 100%;
+    max-width: 304px;
+    background: var(--bg-note);
+    border: 1px solid var(--border-accent-light);
+    padding: 24px 16px 16px 16px;
+    display: flex;
+    gap: 12px;
+}
+
+.order-conf-note-text {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: var(--text-muted);
+}
+
+.order-conf-note-icon {
+    font-size: 12px;
+    color: var(--accent-olive);
+}
+
+/* Action Buttons */
+.order-conf-action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 8px;
+}
+
+.order-conf-btn-track {
+    width: 100%;
+    height: 52px;
+    background: var(--primary-maroon);
+    border: none;
+    color: #FFFFFF;
+    font-family: 'Jost', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.order-conf-btn-track:hover {
+    background: #600000;
+}
+
+.order-conf-btn-continue {
+    width: 100%;
+    height: 54px;
+    background: transparent;
+    border: 1px solid #6C5E064D;
+    color: var(--accent-olive);
+    font-family: 'Jost', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.order-conf-btn-continue:hover {
+    background: rgba(108, 94, 6, 0.05);
+}
+
+/* Responsive adjustments */
+@media (max-width: 991px) {
+    .order-conf-content-grid {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .order-conf-left-column,
+    .order-conf-right-column {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .order-conf-inner-layout {
+        padding: 40px 24px;
+    }
+
+    .order-conf-checkmark-box {
+        width: 80px;
+        height: 72px;
+    }
+
+    .order-conf-summary-row {
+        gap: 16px;
+    }
+}
+
+@media (max-width: 576px) {
+    .order-conf-product-box {
+        flex-direction: column;
+        height: auto;
+        align-items: center;
+        text-align: center;
+    }
+
+    .order-conf-product-image-container {
+        width: 100%;
+        max-width: 160px;
+        height: auto;
+        aspect-ratio: 128/176;
+    }
+
+    .order-conf-inner-layout {
+        padding: 30px 15px;
+    }
+
+    .order-conf-summary-box,
+    .order-conf-delivery-box {
+        padding: 24px 15px;
+    }
+
+    .order-conf-title {
+        font-size: 32px;
+        letter-spacing: -1.5px;
+    }
+}

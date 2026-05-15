@@ -1,0 +1,41 @@
+.quality-badge {
+    flex: 1;
+    min-width: 120px;
+    background: #FFFFFF;
+    border: 1px solid rgba(201, 169, 97, 0.2);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.quality-badge:hover {
+    border-color: #8B2635;
+    box-shadow: 0 4px 6px rgba(139, 38, 53, 0.05);
+}
+
+.badge-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
+.fallback-badge-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.badge-title {
+    font-family: 'Jost', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: -0.5px;
+    color: #111827;
+}
+
+.badge-subtitle {
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 18px;
+    color: #4B5563;
+}

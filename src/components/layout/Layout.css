@@ -1,0 +1,16 @@
+.layout-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main-content {
+    flex: 1;
+    /* Add padding/margin if needed, e.g., to push content below fixed navbar if it was fixed */
+    /* padding-top: 20px; */
+}
+
+/* Ensure footer is at the bottom even with little content */
+footer {
+    margin-top: auto;
+}

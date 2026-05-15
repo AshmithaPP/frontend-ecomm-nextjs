@@ -1,0 +1,53 @@
+.cart-summary-card {
+    border: 1px solid #ddd;
+    background-color: #fff;
+    border-radius: 0;
+}
+
+.summary-item-name {
+    font-size: 15px;
+    color: #666;
+}
+
+.summary-item-price {
+    font-weight: 600;
+    color: #000;
+}
+
+.summary-total {
+    border-top: 1px solid #f2f2f2;
+}
+
+.total-label {
+    font-size: 18px;
+    color: #6B7280; /* Greyish as in image */
+    font-family: 'Jost', sans-serif;
+}
+
+.total-price {
+    font-size: 18px;
+    font-weight: 700;
+    color: #16A34A; /* Emerald green as in image */
+    font-family: 'Jost', sans-serif;
+}
+
+.proceed-btn {
+    background-color: #000;
+    color: #fff;
+    border-radius: 0;
+    font-weight: 600;
+    padding: 18px 0;
+    font-size: 16px;
+    border: none;
+    text-transform: none;
+    transition: background-color 0.3s;
+}
+
+.proceed-btn:hover {
+    background-color: #333;
+}
+
+.continue-shopping .btn-link {
+    font-size: 14px;
+    font-weight: 500;
+}

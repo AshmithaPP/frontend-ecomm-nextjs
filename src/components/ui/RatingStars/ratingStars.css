@@ -1,0 +1,24 @@
+.rating-stars {
+    gap: 4px;
+}
+
+.rating-stars.small .star {
+    width: 14px;
+    height: 14px;
+    object-fit: contain;
+}
+
+.rating-stars.large .star {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
+.star-empty {
+    filter: grayscale(100%) opacity(30%);
+}
+
+.star-half-container {
+    position: relative;
+    display: inline-block;
+}

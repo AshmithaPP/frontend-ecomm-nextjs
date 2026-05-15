@@ -1,0 +1,99 @@
+.review-card {
+    border-top: 0.97px solid #e9ecef;
+    padding-top: 1.5rem;
+}
+
+.review-card:first-child {
+    border-top: none;
+}
+
+.reviewer-avatar img {
+    width: 46.74px;
+    height: 46.74px;
+    object-fit: cover;
+    border-radius: 9737.4px;
+}
+
+.reviewer-name {
+    font-size: 16px;
+    color: #333;
+}
+
+.review-date {
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    font-size: 13.63px;
+    line-height: 19.48px;
+    letter-spacing: -0.49px;
+    color: #6B7280;
+}
+
+.review-body {
+    padding-left: 62.74px; /* avatar width + margin */
+}
+
+@media (max-width: 768px) {
+    .review-body {
+        padding-left: 0;
+    }
+}
+
+.review-text {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 1rem;
+}
+
+.review-images {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.review-thumbnail {
+    width: 77.90px;
+    height: 77.90px;
+    object-fit: cover;
+    border-radius: 7.79px;
+}
+
+.review-footer {
+    padding-left: 62.74px;
+}
+
+@media (max-width: 768px) {
+    .review-footer {
+        padding-left: 0;
+    }
+}
+
+.review-action-btn {
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    font-size: 13.63px;
+    line-height: 13.63px;
+    letter-spacing: -0.49px;
+    color: #4B5563 !important;
+    background: transparent;
+    border: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+.review-action-icon {
+    width: 13.63px;
+    height: 16.55px;
+    margin-right: 8px; /* space between icon and text */
+}
+
+.verified-badge {
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 15.58px;
+    letter-spacing: -0.49px;
+    color: #2D5F4F;
+    margin-left: 12px;
+}

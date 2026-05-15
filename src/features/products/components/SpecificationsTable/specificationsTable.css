@@ -1,0 +1,60 @@
+.specifications-table {
+    width: 100%;
+}
+
+    /* Padding to match the columns gap or left alignments */
+    /* Bootstrap cols have padding, we override to match the pixel-perfect layout */
+
+.spec-cell:nth-child(odd) {
+    padding-right: 23px !important; /* Half of the 46.7px gap between 614.89 and 661.67 */
+}
+
+.spec-cell:nth-child(even) {
+    padding-left: 23px !important;
+}
+
+.spec-row-content {
+    height: 47.75px;
+    border-bottom: 0.97px solid #E5E7EB;
+    width: 100%;
+}
+
+/* Remove bottom border for the last row's cells if needed, but the design shows it */
+
+.spec-label {
+    font-family: 'Jost', sans-serif;
+    font-weight: 600;
+    font-size: 15.59px;
+    line-height: 23.39px;
+    letter-spacing: -0.49px;
+    color: #374151;
+    width: 187.1px; /* Matches the left coordinate of the value */
+    flex-shrink: 0;
+}
+
+.spec-value {
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    font-size: 15.59px;
+    line-height: 23.39px;
+    letter-spacing: -0.49px;
+    color: #111827;
+}
+
+/* Responsive Handling */
+@media (max-width: 991.98px) {
+    .spec-cell:nth-child(odd),
+    .spec-cell:nth-child(even) {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    
+    .spec-label {
+        width: 140px; /* Reduced width for smaller screens */
+        font-size: 14px;
+    }
+    
+    .spec-value {
+        font-size: 14px;
+    }
+}

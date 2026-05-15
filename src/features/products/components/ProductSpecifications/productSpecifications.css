@@ -1,0 +1,42 @@
+.product-specifications-wrapper {
+    width: 100%;
+    max-width: 1340.87px;
+    margin: 0 auto;
+    background-color: #FFFFFF;
+    border-radius: 7.8px;
+    border: 0.97px solid #E5E7EB;
+    /* User specified coordinates 31 padding roughly for heading */
+    padding: 31px 32px 40px 32px; 
+}
+
+.specifications-heading {
+    font-family: 'Jost', sans-serif;
+    font-weight: 600;
+    font-size: 29.23px;
+    line-height: 35.08px;
+    letter-spacing: -0.49px;
+    color: #a42829;
+    margin-bottom: 24px; /* Space between heading and table to match 90.63 top offset (90 - 31 - 35 = 24) */
+}
+
+.specifications-table-container {
+    width: 100%;
+    margin-bottom: 31px; /* Roughly the space before care instructions */
+}
+
+.care-instructions-container {
+    width: 100%;
+    border-top: 0.97px solid #E5E7EB;
+}
+
+/* Responsiveness for spacing on small screens */
+@media (max-width: 768px) {
+    .product-specifications-wrapper {
+        padding: 20px 16px;
+    }
+    
+    .specifications-heading {
+        font-size: 24px;
+        line-height: 30px;
+    }
+}

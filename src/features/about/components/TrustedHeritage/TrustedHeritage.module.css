@@ -1,0 +1,267 @@
+/* TrustedHeritage.module.css */
+
+.trustedSectionWrapper {
+    width: 100%; /* Cover fully right and left */
+    background: #FFFFFF;
+    position: relative;
+    font-family: var(--font-jost), sans-serif;
+    padding-top: 49px; /* padding-top: 49px */
+    padding-bottom: 0; /* Let bottom section follow directly */
+}
+
+.trustedInnerContainer {
+    max-width: 1200px; /* inner layout-width: 1200 */
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 37px; /* gap: 37px */
+    padding-bottom: 48px; /* Reduced space between sections */
+}
+
+.trustedHeaderArea {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.trustedTitleBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.trustedOverline {
+    width: 171.8px;
+    height: 24px;
+    font-family: var(--font-jost), sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 1.6px;
+    color: #6C5E06;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+.trustedHeadline {
+    width: 584.58px;
+    height: 40px;
+    font-family: var(--font-jost), sans-serif;
+    font-weight: 600;
+    font-style: normal;
+    font-size: 36px;
+    line-height: 40px;
+    color: #800000;
+    margin: 0;
+}
+
+/* SILK MARK CERTIFIED BADGE - EXACT REPLICA */
+.trustedCertificationBadge {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    opacity: 1;
+}
+
+.trustedCertIconBox {
+    width: 64px; /* layout-width: 64 */
+    height: 64px; /* height: 64 */
+    border-radius: 12px; /* border-radius: 12px */
+    border: 1px solid #6C5E0633; /* border-width: 1px */
+    padding: 8px; /* padding: 8px */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #FFFFFF;
+}
+
+.trustedCertIcon {
+    width: 33px; /* width: 33 */
+    height: 31.5px; /* height: 31.5 */
+    object-fit: contain;
+}
+
+.trustedCertText {
+    width: 73.58px; /* width: 73.58 */
+    height: 30px; /* height: 30 */
+    font-family: var(--font-manrope), sans-serif;
+    font-weight: 700; /* font-weight: 700 / Extra Bold */
+    font-style: normal;
+    font-size: 12px;
+    line-height: 15px; /* line-height: 15px */
+    letter-spacing: 1.2px; /* letter-spacing: 1.2px */
+    color: #6C5E06;
+    text-transform: uppercase;
+    margin: 0;
+    vertical-align: middle;
+}
+
+/* 4 CARDS GRID */
+.trustedCardsGrid {
+    width: 1136px; /* those 4cards layout-width: 1136 */
+    display: grid;
+    grid-template-columns: repeat(4, 266px); /* each card -width: 266 */
+    column-gap: 24px;
+    row-gap: 24px;
+    margin: 0 auto;
+}
+
+.trustedCard {
+    width: 266px;
+    height: 229px;
+    background: #F5F5DC; /* background: #F5F5DC */
+    border: 1px solid #6C5E0633; /* border: 1px solid #6C5E0633 */
+    padding-top: 32px;
+    padding-right: 32px;
+    padding-bottom: 82.75px;
+    padding-left: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 14.8px;
+}
+
+.trustedCardTitle {
+    width: 200px;
+    height: 28px;
+    font-family: var(--font-jost), sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 28px;
+    color: #A42829; /* background: #A42829 treated as color */
+    margin: 0;
+}
+
+.trustedCardText {
+    width: 200px;
+    height: 69px;
+    font-family: var(--font-jost), sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 22.75px;
+    color: #000000;
+    margin: 0;
+}
+
+/* BOTTOM SECTION (5 FEATURES) */
+.trustedBottomSection {
+    width: 100%; /* Fully cover right and left */
+    height: 180px; /* Reduced height from 245 */
+    background: #F5F7DE; /* #F5F7DE */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 0; /* Consistent padding */
+}
+
+.trustedFeaturesGrid {
+    width: 1136px; /* inner layout-width: 1136 */
+    height: 100px; /* height: 100 */
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    column-gap: 48px; /* column-gap: 48px */
+    row-gap: 48px;
+    justify-items: center;
+}
+
+.trustedFeatureBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px; /* gap: 16px */
+    width: 188.8px;
+}
+
+.trustedFeatureIconBg {
+    width: 64px;
+    height: 64px;
+    background: #EFEFD7;
+    border-radius: 12px;
+    box-shadow: 0px 1px 2px 0px #0000000D;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.trustedFeatureIcon {
+    width: 24px;
+    height: 24px;
+    color: #6C5E06; /* Updated color to #6C5E06 as requested */
+}
+
+.trustedFeatureLabel {
+    width: auto; /* Remove width constraint */
+    white-space: nowrap; /* Force one line */
+    height: 20px;
+    font-family: var(--font-jost), sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.35px;
+    text-align: center;
+    color: #A42829; /* background: #A42829 treated as color */
+    text-transform: uppercase;
+    margin: 0;
+}
+
+/* RESPONSIVE STYLES */
+@media (max-width: 1200px) {
+    .trustedCardsGrid {
+        width: 100%;
+        grid-template-columns: repeat(2, 1fr);
+        justify-items: center;
+    }
+    
+    .trustedSectionWrapper {
+        height: auto;
+    }
+    
+    .trustedFeaturesGrid {
+        width: 100%;
+        grid-template-columns: repeat(3, 1fr);
+        height: auto;
+        padding-bottom: 24px;
+    }
+    
+    .trustedBottomSection {
+        height: auto;
+        padding: 40px 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .trustedInnerContainer {
+        width: 100%;
+    }
+
+    .trustedHeadline {
+        width: 100%;
+        font-size: 28px;
+        line-height: 34px;
+        height: auto;
+    }
+    
+    .trustedCardsGrid {
+        grid-template-columns: 1fr;
+    }
+    
+    .trustedFeaturesGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .trustedHeaderArea {
+        flex-direction: column;
+        gap: 24px;
+    }
+    
+    .trustedCertificationBadge {
+        width: fit-content;
+    }
+}
+
+@media (max-width: 480px) {
+    .trustedFeaturesGrid {
+        grid-template-columns: 1fr;
+    }
+}

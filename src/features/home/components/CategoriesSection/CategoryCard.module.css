@@ -1,0 +1,160 @@
+.cardContainer {
+    position: relative;
+    width: 400px;
+    height: 259.26px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.cardContainer:hover {
+    transform: scale(1.02);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5));
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.contentBox {
+    position: absolute;
+    top: 29.63px;
+    left: 34.41px;
+    width: 320.24px;
+    height: 200.75px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    /* LEFT ALIGNED EXACTLY */
+}
+
+.title {
+    width: 100%;
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+    font-size: 26.77px;
+    line-height: 120%;
+    /* added for wrap if needed, absolute spec was 100% */
+    color: #FFFFFF;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+}
+
+.countBadge {
+    margin-top: 8px;
+    /* matching visual layout */
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    /* REMOVED BACKGROUND */
+    border-radius: 0;
+    /* pill shape */
+    padding: 0;
+    margin-bottom: 0px;
+}
+
+.countText {
+    width: 115.67px;
+    height: 26.77px;
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    /* Style Regular */
+    font-size: 19.12px;
+    line-height: 100%;
+    color: #FFFFFF;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    text-align: left;
+}
+
+.viewBtn {
+    margin-top: auto;
+    width: 205.53px;
+    height: 64.05px;
+    background-color: transparent;
+    /* TRANSPARENT BACKGROUND */
+    border: 1px solid #FFFFFF;
+    /* OUTLINE BUTTON */
+    border-radius: 8px;
+    /* Exact rounded rectangle matching picture */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.viewBtn:hover {
+    background-color: #FFFFFF;
+    /* inversion effect commonly used */
+    color: #333333;
+}
+
+.viewBtn:hover .btnText {
+    color: #333333 !important;
+}
+
+.btnText {
+    width: 100%;
+    height: 26.77px;
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+    font-size: 19.12px;
+    line-height: 100%;
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Responsiveness adjustments to prevent hard width/height bugs on smaller containers */
+@media (max-width: 1400px) {
+    .cardContainer {
+        width: 100%;
+        /* fluid inside grid */
+    }
+
+    .contentBox {
+        /* adjust for scale or preserve absolute values */
+    }
+}
+
+@media (max-width: 480px) {
+    .cardContainer {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 4/3;
+    }
+
+    .contentBox {
+        position: relative;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        padding: 20px;
+    }
+
+    .title {
+        width: 100%;
+        white-space: normal;
+        font-size: 22px;
+    }
+}

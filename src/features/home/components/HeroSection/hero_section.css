@@ -1,0 +1,138 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@400;600&display=swap');
+
+.hero-section {
+    background-image: url('../../../../assets/images/herobg.png');
+    background-size: cover;
+    background-position: center;
+    /* background-repeat: no-repeat; */
+    height: 589px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section .container {
+    height: 100%;
+    position: relative;
+}
+
+.hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 133px;
+    /* 284px - 151px */
+    padding-left: 101px;
+    /* Left 101px */
+}
+
+.hero-title {
+    font-family: 'Jost', sans-serif;
+    font-weight: 600;
+    font-size: 48px;
+    line-height: 100%;
+    /* 48px */
+    color: #A42829;
+    letter-spacing: 0%;
+    max-width: 505px;
+    height: 130px;
+    /* Exact box height from specs */
+    margin-bottom: 23px;
+    /* Exact gap to subtext: 437 - (284 + 130) = 23 */
+}
+
+.hero-subtext {
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 100%;
+    color: #000000;
+    letter-spacing: 0%;
+    max-width: 489px;
+    height: 79px;
+    margin-bottom: 23px;
+}
+
+.hero-btn {
+    width: 200px;
+    height: 54px;
+    background-color: #A42829;
+    color: #FFFFFF;
+    border-radius: 4px;
+    /* Approximated - default rounded */
+    border: none;
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    /* Inside text fits */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 29px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.hero-btn:hover {
+    background-color: #851f21;
+    /* Slightly darker shade */
+}
+
+.hero-right {
+    display: flex;
+    align-items: flex-end;
+    height: 100%;
+}
+
+.hero-img {
+    width: 456px;
+    height: 570px;
+    object-fit: cover;
+}
+
+@media (max-width: 1440px) {
+    .hero-left {
+        padding-left: 40px;
+        /* Responsive adjustment for smaller screens */
+    }
+}
+
+@media (max-width: 991px) {
+    .hero-left {
+        padding-top: 80px;
+        padding-left: 20px;
+    }
+}
+
+@media (max-width: 767px) {
+    .hero-section {
+        height: auto;
+        padding: 60px 0;
+    }
+
+    .hero-left {
+        padding-top: 0;
+        padding-left: 15px;
+        text-align: center;
+        align-items: center;
+    }
+
+    .hero-title {
+        font-size: 36px;
+        max-width: 100%;
+    }
+
+    .hero-subtext {
+        font-size: 20px;
+        max-width: 100%;
+    }
+
+    .hero-right {
+        justify-content: center;
+        margin-top: 40px;
+    }
+
+    .hero-img {
+        max-width: 100%;
+        height: auto;
+    }
+}

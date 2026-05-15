@@ -1,0 +1,298 @@
+.gift-section-container {
+    width: 100%;
+    max-width: 1319.11px; /* Exact spec */
+    margin: 48px auto 24px auto;
+}
+
+/* Tops Guarantees Bar */
+.gift-section-card {
+    background: #FFFFFF; /* In the image it's white, #000 is likely the text/spec canvas color */
+    border: 1px solid #E5E7EB;
+    border-radius: 11.78px;
+    height: 159px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gift-inner-layout {
+    width: 1248.44px;
+    height: 88.33px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.gift-feature-item {
+    width: 285.61px;
+    height: 88.33px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+}
+
+.gift-feature-icon-wrapper {
+    width: 35.33px;
+    height: 35.33px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 4.42px; /* icon top spec */
+    margin-bottom: 20.61px; /* approximate logic: 60.36 - 35.33 - 4.42 = 20.61 to reach text top */
+}
+
+.gift-feature-icon svg {
+    width: 35.33px;
+    height: 35.33px;
+}
+
+.gift-feature-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 20.61px;
+    line-height: 29.44px;
+    color: #111827;
+    text-align: center;
+    letter-spacing: -0.74px;
+    width: 181px;
+    height: 30px;
+    margin: 0 auto;
+    white-space: nowrap;
+}
+
+/* ====================================================
+   BOTTOM BURGUNDY VOUCHER BANNER
+   ==================================================== */
+.gift-voucher-banner {
+    background: linear-gradient(90deg, #800020 0%, #7F1D1D 100%);
+    border: 1px solid #E5E7EB;
+    border-radius: 22.59px;
+    padding: 45.18px; /* rough extraction to center children inside */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1265px;
+    margin: 0 auto;
+}
+
+.voucher-title {
+    font-family: 'Jost', sans-serif;
+    font-weight: 700;
+    font-size: 42.35px;
+    line-height: 50.83px;
+    color: #FFFFFF;
+    margin-bottom: 23px; /* difference between 9.18 and 74.65 approx */
+    letter-spacing: -0.71px;
+    text-align: center;
+}
+
+.voucher-subtitle {
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    font-size: 25.41px;
+    line-height: 39.53px;
+    color: #FFFFFF;
+    margin-bottom: 40px; /* spacing to cards */
+    letter-spacing: -0.71px;
+    text-align: center;
+}
+
+/* Voucher Card Container */
+.voucher-card {
+    background: #FFFFFF;
+    border: 1px solid #E5E7EB;
+    border-radius: 11.29px;
+    padding: 30px; /* Derived inner padding */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 288.01px;
+    box-shadow: 0px 14.12px 21.18px 0px rgba(0, 0, 0, 0.1), 0px 5.65px 8.47px 0px rgba(0, 0, 0, 0.1);
+}
+
+.voucher-amount {
+    font-family: 'Jost', sans-serif;
+    font-weight: 700;
+    font-size: 33.88px;
+    line-height: 33.88px;
+    color: #800020;
+    margin-bottom: 12px;
+    letter-spacing: -0.71px;
+}
+
+.voucher-label {
+    font-family: 'Jost', sans-serif; /* Specified Jost instead of Inter in user prompt */
+    font-weight: 400;
+    font-size: 19.77px;
+    line-height: 19.77px;
+    color: #4B5563;
+    margin-bottom: 30px;
+    letter-spacing: -0.71px;
+}
+
+.voucher-btn {
+    background: linear-gradient(90deg, #D4AF37 0%, #FACC15 100%);
+    border: 1px solid #E5E7EB;
+    color: #FFFFFF;
+    font-family: 'Jost', sans-serif;
+    font-weight: 700;
+    font-size: 22.59px;
+    line-height: 33.88px;
+    letter-spacing: -0.71px;
+    border-radius: 11.29px;
+    width: 301.18px;
+    height: 112.94px;
+    max-width: 100%; /* Responsive safeguard */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.voucher-btn:hover {
+    opacity: 0.9;
+}
+
+/* Shop Bottom Button */
+.shop-gift-cards-btn {
+    background: #FFFFFF;
+    border: 1px solid #E5E7EB;
+    color: #800020;
+    font-family: 'Jost', sans-serif;
+    font-weight: 600;
+    font-size: 22.59px;
+    line-height: 22.59px;
+    letter-spacing: -0.71px;
+    border-radius: 11.29px;
+    margin-top: 24px;
+    width: 261.45px;
+    height: 67.76px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.shop-gift-cards-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+/* ====================================================
+   RESPONSIVE OVERRIDES
+   ==================================================== */
+
+/* Tablet — ≤ 992px */
+@media (max-width: 992px) {
+    .gift-section-container {
+        padding: 0 20px;
+        margin: 32px auto;
+    }
+
+    .gift-section-card {
+        height: auto;
+        padding: 30px 15px;
+    }
+
+    .gift-feature-title {
+        font-size: 16px;
+        line-height: 1.25;
+        width: auto;
+        height: auto;
+        white-space: normal;
+        margin-top: 10px;
+    }
+
+    .gift-feature-item {
+        width: 100%;
+        height: auto;
+    }
+
+    .voucher-title {
+        font-size: 32px;
+        line-height: 1.2;
+    }
+
+    .voucher-subtitle {
+        font-size: 18px;
+        line-height: 1.4;
+    }
+
+    .voucher-card {
+        height: auto;
+        padding: 24px;
+        margin-bottom: 20px;
+    }
+
+    .voucher-btn {
+        width: 100%;
+        height: auto;
+        padding: 20px;
+        font-size: 18px;
+    }
+}
+
+/* Mobile — ≤ 576px */
+@media (max-width: 576px) {
+    .gift-section-container {
+        margin: 24px auto;
+    }
+
+    .gift-section-card {
+        padding: 24px 10px;
+    }
+
+    .gift-feature-title {
+        font-size: 14px;
+        letter-spacing: -0.3px;
+    }
+
+    .gift-feature-icon svg {
+        width: 28px;
+        height: 28px;
+    }
+
+    .gift-feature-icon-wrapper {
+        width: 28px;
+        height: 28px;
+        margin-bottom: 8px;
+    }
+
+    .gift-voucher-banner {
+        padding: 30px 20px;
+    }
+
+    .voucher-title {
+        font-size: 26px;
+    }
+
+    .voucher-subtitle {
+        font-size: 15px;
+        line-height: 1.3;
+    }
+
+    .voucher-amount {
+        font-size: 28px;
+    }
+
+    .voucher-label {
+        font-size: 16px;
+        margin-bottom: 20px;
+    }
+
+    .voucher-btn {
+        font-size: 16px;
+        padding: 16px;
+    }
+
+    .shop-gift-cards-btn {
+        width: 100%;
+        font-size: 18px;
+    }
+}

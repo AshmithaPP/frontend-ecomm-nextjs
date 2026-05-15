@@ -1,0 +1,39 @@
+.pagination-wrapper {
+    gap: 8px; /* space between buttons */
+    margin-top: 40px; /* Space from cards row */
+}
+
+.page-btn {
+    height: 38px;
+    border: 1px solid #D1D5DB;
+    border-radius: 6px;
+    background-color: #FFFFFF;
+    color: #000000;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+.prev-btn, .next-btn {
+    padding: 0 16px; /* Previous and Next buttons are larger text boxes */
+}
+
+.num-btn {
+    width: 38px; /* Square proportions for number items */
+}
+
+.page-btn:hover {
+    border-color: #9CA3AF;
+    background-color: #F9FAFB;
+}
+
+.page-btn.active {
+    background-color: #800020; /* Burgundy spec */
+    color: #FFFFFF; /* White text spec */
+    border-color: #E5E7EB; /* Spec border for active button */
+}

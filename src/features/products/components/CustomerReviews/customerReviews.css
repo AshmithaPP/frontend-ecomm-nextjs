@@ -1,0 +1,403 @@
+/* ── Wrapper ─────────────────────────────────────────────────────────────── */
+.customer-reviews-section {
+    max-width: 1340px;
+    border: 0.97px solid #E5E7EB;
+    border-radius: 7.79px;
+    background: #FFFFFF;
+    margin: 0 auto 3rem auto;
+    font-family: 'Jost', sans-serif;
+}
+
+/* ── Header ──────────────────────────────────────────────────────────────── */
+.reviews-section-title {
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+    font-size: 30px;
+    line-height: 35.06px;
+    letter-spacing: -0.49px;
+    color: #111827;
+}
+
+.write-review-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 22px;
+    background: #8B2635;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Jost', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 6px -1px rgba(139, 38, 53, 0.15), 0 2px 4px -1px rgba(139, 38, 53, 0.1);
+}
+
+.write-review-btn:hover {
+    background: #721f2b;
+    transform: translateY(-1px);
+    box-shadow: 0 10px 15px -3px rgba(139, 38, 53, 0.2), 0 4px 6px -2px rgba(139, 38, 53, 0.1);
+}
+
+.write-review-btn:active {
+    transform: translateY(0);
+}
+
+.write-review-btn.cancel-mode {
+    background: #F3F4F6;
+    color: #4B5563;
+    box-shadow: none;
+    border: 1.5px solid #E5E7EB;
+}
+
+.write-review-btn.cancel-mode:hover {
+    background: #E5E7EB;
+    color: #1F2937;
+}
+
+/* ── Rating summary column ───────────────────────────────────────────────── */
+.rating-summary-col {
+    border-right: 0.97px solid #E5E7EB !important;
+}
+
+@media (max-width: 768px) {
+    .rating-summary-col {
+        border-right: none !important;
+        border-bottom: 0.97px solid #E5E7EB;
+        padding-bottom: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+}
+
+.rating-value {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 46.74px;
+    line-height: 46.74px;
+    letter-spacing: -0.49px;
+    color: #111827;
+}
+
+.rating-based-on {
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    font-size: 13.63px;
+    line-height: 19.48px;
+    letter-spacing: -0.49px;
+    color: #4B5563;
+}
+
+/* ── Rating breakdown bars ───────────────────────────────────────────────── */
+.rating-breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.breakdown-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.breakdown-label {
+    font-family: 'Jost', sans-serif;
+    font-size: 13.63px;
+    color: #374151;
+    min-width: 42px;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.breakdown-bar-track {
+    flex: 1;
+    height: 8px;
+    background: #E5E7EB;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.breakdown-bar-fill {
+    height: 100%;
+    background: #FBBF24;
+    border-radius: 999px;
+    transition: width 0.4s ease;
+}
+
+.breakdown-count {
+    font-family: 'Jost', sans-serif;
+    font-size: 13.63px;
+    color: #6B7280;
+    min-width: 28px;
+    text-align: right;
+}
+
+/* ── Divider ─────────────────────────────────────────────────────────────── */
+.reviews-divider {
+    border: none;
+    border-top: 0.97px solid #E5E7EB;
+    opacity: 1;
+    margin: 1.5rem 0;
+}
+
+/* Keep the Bootstrap <hr> inside section invisible (original rule) */
+.customer-reviews-section hr:not(.reviews-divider) {
+    opacity: 0;
+    height: 0;
+    margin: 0;
+    border: none;
+}
+
+/* ── Review card ─────────────────────────────────────────────────────────── */
+.reviews-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.review-card {
+    padding: 20px 0;
+    border-bottom: 0.97px solid #E5E7EB;
+}
+
+.review-card:last-child {
+    border-bottom: none;
+}
+
+/* Header row: avatar + name/stars on left, date on right */
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.reviewer-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.reviewer-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.reviewer-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.reviewer-name {
+    font-family: 'Jost', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    color: #111827;
+    line-height: 1.2;
+}
+
+.reviewer-stars {
+    display: flex;
+    align-items: center;
+    gap: 1px;
+}
+
+.review-date {
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    color: #9CA3AF;
+    white-space: nowrap;
+    padding-top: 2px;
+}
+
+/* Comment, images, footer — all start aligned under the star icons (avatar 44px + gap 12px = 56px) */
+.review-comment {
+    font-family: 'Jost', sans-serif;
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: #374151;
+    margin: 0 0 12px 56px;
+}
+
+/* Review images */
+.review-images {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+    margin-left: 56px;
+    flex-wrap: wrap;
+}
+
+.review-image-thumb {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 0.97px solid #E5E7EB;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.review-image-thumb:hover {
+    opacity: 0.85;
+}
+
+/* Footer: helpful + verified */
+.review-footer {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.helpful-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-family: 'Jost', sans-serif;
+    font-size: 13.5px;
+    color: #6B7280;
+    transition: color 0.2s;
+}
+
+.helpful-btn:hover {
+    color: #374151;
+}
+
+.verified-badge {
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    color: #059669;
+    font-weight: 500;
+}
+
+/* ── Load more button ────────────────────────────────────────────────────── */
+.load-more-btn {
+    font-family: 'Jost', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    color: #374151;
+    background: #FFFFFF;
+    border: 1.5px solid #E5E7EB;
+    padding: 12px 32px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.load-more-btn:hover:not(:disabled) {
+    background: #F9FAFB;
+    border-color: #D1D5DB;
+    color: #111827;
+}
+
+.load-more-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* ── Stars (inline component) ────────────────────────────────────────────── */
+.rating-stars {
+    display: inline-flex;
+    gap: 1px;
+    line-height: 1;
+}
+
+/* ── Skeleton Loaders ────────────────────────────────────────────────────── */
+@keyframes skeleton-loading {
+    0% { background-position: 100% 50%; }
+    100% { background-position: 0 50%; }
+}
+
+.skeleton-summary {
+    height: 150px;
+    width: 100%;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 400% 100%;
+    animation: skeleton-loading 1.5s infinite;
+    border-radius: 8px;
+}
+
+.skeleton-card {
+    height: 120px;
+    width: 100%;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 400% 100%;
+    animation: skeleton-loading 1.5s infinite;
+    border-radius: 8px;
+}
+
+/* ── Mobile Responsive Adjustments ───────────────────────────────────────── */
+@media (max-width: 768px) {
+    .review-comment, .review-images, .review-footer {
+        margin-left: 0;
+    }
+    
+    .reviewer-info {
+        gap: 10px;
+    }
+    
+    .reviewer-avatar {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .reviews-section-title {
+        font-size: 24px;
+    }
+}
+
+.empty-reviews {
+    border: 1px dashed #E5E7EB;
+    border-radius: 8px;
+    background-color: #F9FAFB;
+}
+.submit-review-btn {
+    background: #111827;
+    color: #FFFFFF;
+    border: none;
+    padding: 12px 48px;
+    border-radius: 8px;
+    font-family: 'Jost', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.submit-review-btn:hover:not(:disabled) {
+    background: #1f2937;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.submit-review-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.review-form-container {
+    background: #FFFFFF !important;
+    border: 1.5px solid #E5E7EB !important;
+    border-radius: 12px !important;
+    animation: fadeInDown 0.4s ease-out;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
