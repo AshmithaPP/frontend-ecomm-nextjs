@@ -33,9 +33,11 @@ const CartItem = ({ item }: CartItemProps) => {
     };
 
     const priceValue = parseFloat(String(item.unit_price || item.price || '0').replace(/[^0-9.]/g, '') || '0');
-    const imageUrl = item.image_url 
-        ? (item.image_url.startsWith('http') ? item.image_url : `${IMAGE_BASE}${item.image_url}`) 
-        : item.image;
+    
+    const rawImage = item.image_url || item.image;
+    const imageUrl = rawImage 
+        ? (rawImage.startsWith('http') ? rawImage : `${IMAGE_BASE}${rawImage}`) 
+        : '';
 
     const attributeText = item.attributes 
         ? Object.entries(item.attributes).map(([key, val]: [string, any]) => `${key}: ${val}`).join(' | ')

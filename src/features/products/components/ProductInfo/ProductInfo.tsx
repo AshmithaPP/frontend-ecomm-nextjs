@@ -18,8 +18,9 @@ const ProductInfo = ({ product }: any) => {
     const router = useRouter();
     const { setSelectedVariant } = useProductStore();
     const { isAuthenticated } = useAuthStore();
-    const { addToCart, loading: cartLoading } = useCartStore();
+    const { addToCart, loading: cartLoading, setDrawerOpen } = useCartStore();
     const { items: wishlistItems, toggleWishlist } = useWishlistStore();
+    const [quantity, setQuantity] = React.useState(1);
 
     const isLiked = wishlistItems.some((item: any) => item.product_id === product?.product_id);
 
@@ -31,7 +32,7 @@ const ProductInfo = ({ product }: any) => {
     const handleBuyNow = async () => {
         const variantId = product.selected_variant?.variant_id || product.default_variant_id;
 
-        const result = await addToCart(product.product_id, variantId, 1);
+        const result = await addToCart(product.product_id, variantId, quantity);
         if (result.success) {
             router.push('/checkout');
         } else {
@@ -42,9 +43,10 @@ const ProductInfo = ({ product }: any) => {
     const handleAddToCart = async () => {
         const variantId = product.selected_variant?.variant_id || product.default_variant_id;
 
-        const result = await addToCart(product.product_id, variantId, 1);
+        const result = await addToCart(product.product_id, variantId, quantity);
         if (result.success) {
             toast.success("Added to cart successfully!");
+            setDrawerOpen(true);
         } else {
             toast.error(result.message || "Failed to add to cart");
         }

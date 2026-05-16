@@ -62,6 +62,13 @@ const FilterSidebar = () => {
                         </div>
 
                         <div className="slider-container">
+                            <div className="slider-track"></div>
+                            <div 
+                                className="slider-filled-track" 
+                                style={{ 
+                                    width: `${((activeFilters.max_price || availableFilters.price_range.max) - availableFilters.price_range.min) / (availableFilters.price_range.max - availableFilters.price_range.min) * 100}%` 
+                                }}
+                            ></div>
                             <input
                                 type="range"
                                 min={availableFilters.price_range.min}

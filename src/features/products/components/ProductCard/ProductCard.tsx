@@ -10,6 +10,7 @@ import Image from 'next/image';
 import { IMAGE_BASE } from '@/config/api';
 import { useAuthStore } from '@/store/authStore';
 import { toast } from 'react-toastify';
+import RatingStars from '@/components/ui/RatingStars/RatingStars';
 
 interface ProductCardProps {
     product: any;
@@ -26,7 +27,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
     const router = useRouter();
     const pathname = usePathname();
     const { toggleWishlist, isInWishlist } = useWishlistStore();
-    const { addToCart } = useCartStore();
+    const { addToCart, loading: cartLoading } = useCartStore();
     const { isAuthenticated } = useAuthStore();
 
     const rawId = product.product_id || product.id || (product.product && (product.product.product_id || product.product.id));
@@ -73,6 +74,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         const result = await addToCart(productIdToSend, variantId, 1);
         if (result?.success) {
             toast.success('Added to cart!');
+            setDrawerOpen(true);
         } else {
             toast.error(result?.message || 'Failed to add to cart');
         }
@@ -110,30 +112,40 @@ const ProductCard = ({ product }: ProductCardProps) => {
                 >
                     <i className={`bi ${isLiked ? 'bi-heart-fill text-danger' : 'bi-heart'} wishlist-icon`}></i>
                 </button>
-
-                {/* Cart Button */}
-                <button 
-                    className="cart-btn" 
-                    aria-label="Add to cart"
-                    onClick={handleAddToCart}
-                >
-                    <Image src={CartIcon} alt="Add to cart" className="cart-icon" width={18} height={18} />
-                </button>
             </div>
 
             {/* Content Section */}
             <div className="product-info">
-                <h3 className="product-name">{displayTitle}</h3>
+                <div className="product-text-top">
+                    <h3 className="product-name">{displayTitle}</h3>
+                    <p className="product-category-label">{product.brand || product.category?.name || 'Traditional'}</p>
+                </div>
 
-                <div className="price-row">
+                <div className="product-rating-row mb-2">
+                    <RatingStars rating={product.rating?.average || 4} size="small" />
+                    {product.rating?.count > 0 && (
+                        <span className="rating-count-label text-muted ms-1">({product.rating.count})</span>
+                    )}
+                </div>
+
+                <div className="price-row mb-3">
                     <span className="current-price">₹{displayPrice?.toLocaleString('en-IN')}</span>
                     {displayOriginalPrice && displayOriginalPrice > displayPrice && (
                         <span className="original-price">₹{displayOriginalPrice.toLocaleString('en-IN')}</span>
                     )}
-                    {discount && (
-                        <span className="discount-tag">{discount}% off</span>
-                    )}
                 </div>
+
+                <button 
+                    className={`btn-add-to-cart-v2 ${isOutOfStock ? 'disabled' : ''}`}
+                    onClick={handleAddToCart}
+                    disabled={isOutOfStock || cartLoading}
+                >
+                    {cartLoading ? (
+                        <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    ) : (
+                        isOutOfStock ? 'OUT OF STOCK' : 'ADD TO CART'
+                    )}
+                </button>
             </div>
         </div>
     );

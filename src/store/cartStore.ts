@@ -58,6 +58,8 @@ interface CartState {
     mergeCart: () => Promise<void>;
     applyCoupon: (code: string, subtotal: number) => Promise<{ success: boolean; data?: any; message?: string }>;
     fetchActiveCoupons: () => Promise<any[]>;
+    isDrawerOpen: boolean;
+    setDrawerOpen: (open: boolean) => void;
 }
 
 const API_URL = `${API_BASE}/cart`;
@@ -81,6 +83,9 @@ export const useCartStore = create<CartState>()(
             guestId: null,
             loading: false,
             error: null,
+            isDrawerOpen: false,
+
+            setDrawerOpen: (open) => set({ isDrawerOpen: open }),
 
             initGuest: () => {
                 if (!get().guestId) {

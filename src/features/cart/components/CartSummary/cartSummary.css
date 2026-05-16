@@ -20,14 +20,16 @@
 
 .total-label {
     font-size: 18px;
-    color: #6B7280; /* Greyish as in image */
+    color: #6B7280;
+    /* Greyish as in image */
     font-family: 'Jost', sans-serif;
 }
 
 .total-price {
     font-size: 18px;
     font-weight: 700;
-    color: #16A34A; /* Emerald green as in image */
+    color: #16A34A;
+    /* Emerald green as in image */
     font-family: 'Jost', sans-serif;
 }
 

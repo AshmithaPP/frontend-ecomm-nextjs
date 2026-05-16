@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useAuthStore } from './authStore';
 import { useCartStore } from './cartStore';
 import { API_BASE } from '@/config/api';
+import { usePayment } from './paymentStore';
 
 interface OrderState {
     orders: any[];
@@ -11,13 +12,12 @@ interface OrderState {
     error: string | null;
     getHeaders: () => { headers: { Authorization: string; 'x-guest-id': string | null } };
     placeOrder: (orderPayload: any) => Promise<any>;
-    initiateRazorpayPayment: (orderId: string) => Promise<any>;
-    verifyPayment: (paymentDetails: any) => Promise<any>;
     fetchOrderDetails: (orderId: string) => Promise<void>;
     fetchOrders: (page?: number, limit?: number) => Promise<void>;
     cancelOrder: (orderId: string) => Promise<any>;
     trackOrder: (orderId: string) => Promise<any>;
 }
+
 
 export const useOrderStore = create<OrderState>((set, get) => ({
     orders: [],
@@ -45,7 +45,7 @@ export const useOrderStore = create<OrderState>((set, get) => ({
             
             // If Razorpay, initiate payment immediately
             if (orderPayload.payment_method === 'razorpay') {
-                return await get().initiateRazorpayPayment(orderId);
+                return await usePayment.getState().initiateRazorpayPayment(orderId);
             }
 
             // For COD or others
@@ -62,63 +62,8 @@ export const useOrderStore = create<OrderState>((set, get) => ({
         }
     },
 
-    // 2. Initiate Razorpay
-    initiateRazorpayPayment: async (orderId) => {
-        try {
-            const response = await axios.post(`${API_BASE}/payments/initiate`, { order_id: orderId }, get().getHeaders());
-            const rzpData = response.data.data;
+    // Removed initiateRazorpayPayment and verifyPayment as they are now in paymentStore.ts
 
-            return new Promise((resolve) => {
-                const options = {
-                    key: rzpData.key_id,
-                    amount: rzpData.amount,
-                    currency: rzpData.currency,
-                    name: "Saree Ecommerce",
-                    description: "Order Payment",
-                    order_id: rzpData.razorpay_order_id,
-                    handler: async (response: any) => {
-                        const verifyRes = await get().verifyPayment({
-                            razorpay_order_id: rzpData.razorpay_order_id,
-                            razorpay_payment_id: response.razorpay_payment_id,
-                            razorpay_signature: response.razorpay_signature
-                        });
-                        resolve({ success: verifyRes.success, data: { order_id: orderId } });
-                    },
-                    prefill: {
-                        name: useAuthStore.getState().user?.name || "",
-                        email: useAuthStore.getState().user?.email || "",
-                    },
-                    theme: { color: "#A42829" },
-                    modal: {
-                        ondismiss: () => {
-                            set({ loading: false });
-                            resolve({ success: false, message: "Payment cancelled" });
-                        }
-                    }
-                };
-
-                const rzp = new (window as any).Razorpay(options);
-                rzp.open();
-            });
-        } catch (error: any) {
-            const msg = error.response?.data?.message || 'Payment initialization failed';
-            set({ error: msg, loading: false });
-            return { success: false, message: msg };
-        }
-    },
-
-    // 3. Verify Signature
-    verifyPayment: async (paymentDetails) => {
-        try {
-            const response = await axios.post(`${API_BASE}/payments/verify`, paymentDetails, get().getHeaders());
-            set({ loading: false });
-            useCartStore.getState().fetchCart(); // Refresh cart as it's now cleared in DB
-            return { success: true, message: response.data.message };
-        } catch (error) {
-            set({ loading: false, error: 'Payment verification failed' });
-            return { success: false, message: 'Payment verification failed' };
-        }
-    },
 
     fetchOrderDetails: async (orderId) => {
         set({ loading: true, error: null });

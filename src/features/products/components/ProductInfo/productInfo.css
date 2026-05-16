@@ -43,8 +43,8 @@
 /* Price Card */
 .price-card {
     background: #FFFCF4;
-    border: 1px solid rgba(201, 169, 97, 0.2); 
-    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    border: 1px solid rgba(201, 169, 97, 0.2);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
 }
 
 .current-price {
@@ -190,12 +190,15 @@
     .product-title {
         font-size: 28px;
     }
+
     .current-price {
         font-size: 28px;
     }
+
     .original-price {
         font-size: 20px;
     }
+
     .btn-row {
         flex-direction: column;
     }

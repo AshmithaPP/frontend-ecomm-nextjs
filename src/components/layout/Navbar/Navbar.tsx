@@ -22,7 +22,7 @@ const Navbar = () => {
     const router = useRouter();
     
     const { items: wishlistItems, fetchWishlist } = useWishlistStore();
-    const { cart, fetchCart } = useCartStore();
+    const { cart, fetchCart, setDrawerOpen } = useCartStore();
     const cartItems = cart.items || [];
     
     const { fetchSettings, getSiteInfo } = useSettingsStore();
@@ -123,12 +123,16 @@ const Navbar = () => {
                                     <span className="wishlist-badge">{wishlistItems.length}</span>
                                 )}
                             </Link>
-                            <Link href="/cart" className="nav-icon cart-nav-icon">
+                            <div 
+                                className="nav-icon cart-nav-icon" 
+                                style={{ cursor: 'pointer' }}
+                                onClick={() => { setMenuOpen(false); setDrawerOpen(true); }}
+                            >
                                 <Image src={CartIcon} alt="Cart" width={24} height={24} />
                                 {cartItems.length > 0 && (
                                     <span className="cart-badge">{cartItems.length}</span>
                                 )}
-                            </Link>
+                            </div>
                         </div>
                     </div>
 
@@ -172,12 +176,16 @@ const Navbar = () => {
                                 <span className="wishlist-badge">{wishlistItems.length}</span>
                             )}
                         </Link>
-                        <Link href="/cart" className="nav-icon cart-nav-icon">
+                        <div 
+                            className="nav-icon cart-nav-icon" 
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => setDrawerOpen(true)}
+                        >
                             <Image src={CartIcon} alt="Cart" width={24} height={24} />
                             {cartItems.length > 0 && (
                                 <span className="cart-badge">{cartItems.length}</span>
                             )}
-                        </Link>
+                        </div>
                     </div>
 
                     {/* Hamburger Button — visible only on mobile */}
