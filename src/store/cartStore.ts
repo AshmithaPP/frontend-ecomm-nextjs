@@ -34,6 +34,9 @@ export interface CartSummary {
     gst_rate?: number | string;
     total: number | string;
     estimated_days?: string;
+    free_shipping_threshold?: number | string;
+    currency?: string;
+    is_gst_inclusive?: boolean;
 }
 
 export interface Cart {
