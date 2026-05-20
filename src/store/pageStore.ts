@@ -296,7 +296,13 @@ export const usePageStore = create<PageState>((set, get) => ({
                     const value = pageData[field];
                     if (value && typeof value === 'string') {
                         try {
-                            (pageData[field] as unknown) = JSON.parse(value);
+                            try {
+                                (pageData[field] as unknown) = JSON.parse(value);
+                            } catch (e) {
+                                // Try cleaning invalid single quote escapes (e.g. \')
+                                const cleaned = value.replace(/\\'/g, "'");
+                                (pageData[field] as unknown) = JSON.parse(cleaned);
+                            }
                         } catch (e) {
                             console.warn(`Failed to parse ${String(field)} for page ${slug}`);
                         }
