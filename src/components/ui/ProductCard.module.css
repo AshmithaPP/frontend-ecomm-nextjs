@@ -65,7 +65,7 @@
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 286px;
+    width: 100%;
     height: 60px;
     background: rgba(0, 0, 0, 0.9);
     display: flex;
@@ -154,4 +154,190 @@
         width: 100%;
         max-width: 300px;
     }
+}
+
+/* Glassmorphism Modern Quantity Overlay */
+.qtyOverlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 70px; /* Slightly taller for perfect layout space */
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 12px;
+    box-sizing: border-box;
+    z-index: 10;
+    transform: translateY(100%);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.productCard:hover .qtyOverlay {
+    transform: translateY(0);
+}
+
+/* Selector Column holds [ - 1 + ] */
+.qtySelectorCol {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #FFFFFF;
+    border: 1px solid #E5E7EB;
+    border-radius: 4px;
+    height: 42px;
+    width: 95px;
+    box-sizing: border-box;
+}
+
+.qtyOverlayBtn {
+    background: none;
+    border: none;
+    color: #4B5563;
+    width: 30px;
+    height: 100%;
+    font-weight: 500;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.15s, color 0.15s, transform 0.1s;
+    outline: none;
+}
+
+.qtyOverlayBtn:hover:not(:disabled) {
+    background-color: #F9FAFB;
+    color: #111827;
+}
+
+.qtyOverlayBtn:active:not(:disabled) {
+    transform: scale(0.9);
+}
+
+.qtyOverlayBtn:disabled {
+    color: #E5E7EB;
+    cursor: not-allowed;
+}
+
+.qtyOverlayVal {
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    color: #111827;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+}
+
+/* ADD TO CART overlay button replica */
+.btnOverlayAddToCart {
+    height: 42px;
+    background-color: #000000; /* Solid Black */
+    color: #FFFFFF;
+    border: none;
+    border-radius: 4px;
+    font-family: 'Jost', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 16px;
+    flex-grow: 1;
+    margin-left: 8px;
+    text-transform: uppercase;
+}
+
+.btnOverlayAddToCart:hover:not(:disabled) {
+    background-color: #1a1a1a;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.btnOverlayAddToCart:disabled {
+    background-color: #E5E7EB;
+    color: #9CA3AF;
+    cursor: not-allowed;
+}
+
+.added {
+    background-color: #2D5F4F !important;
+}
+
+.added:hover:not(:disabled) {
+    background-color: #204539 !important;
+    box-shadow: 0 4px 10px rgba(45, 95, 79, 0.3) !important;
+}
+
+/* Detailed MRP price layout style */
+.productPriceContainerNew {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centered for Home Page card overlay text */
+    gap: 2px;
+    margin-top: 4px;
+    width: 100%;
+}
+
+.productPriceRowNew {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.priceLabelMrp {
+    font-family: 'Jost', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    color: #4B5563;
+    text-transform: uppercase;
+}
+
+.priceOriginalStrike {
+    font-family: 'Jost', sans-serif;
+    font-size: 14px;
+    text-decoration: line-through;
+    color: #9CA3AF;
+}
+
+.priceCurrentBold {
+    font-family: 'Jost', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: #111827;
+}
+
+.priceDiscountBadgeNew {
+    background-color: #000000;
+    color: #FFFFFF;
+    font-family: 'Jost', sans-serif;
+    font-weight: 600;
+    font-size: 11px;
+    padding: 1px 6px;
+    border-radius: 2px;
+    text-transform: uppercase;
+}
+
+.priceInfoIconNew {
+    font-size: 13px;
+    color: #9CA3AF;
+    cursor: help;
+    display: inline-flex;
+    align-items: center;
+}
+
+.priceTaxesLabelNew {
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    color: #9CA3AF;
 }

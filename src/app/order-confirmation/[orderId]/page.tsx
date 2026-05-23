@@ -60,6 +60,13 @@ const OrderConfirmationPage = () => {
     ? JSON.parse(currentOrder.shipping_address) 
     : currentOrder.shipping_address;
 
+  // Calculate dynamic GST breakdown (5% inclusive GST)
+  const totalAmount = parseFloat(String(currentOrder.total_amount || '0'));
+  const taxableAmount = parseFloat((totalAmount / 1.05).toFixed(2));
+  const totalGst = parseFloat((totalAmount - taxableAmount).toFixed(2));
+  const cgst = parseFloat((totalGst / 2).toFixed(2));
+  const sgst = parseFloat((totalGst - cgst).toFixed(2));
+
   return (
     <div className="order-conf-wrapper">
       <div className="order-conf-container">
@@ -104,7 +111,32 @@ const OrderConfirmationPage = () => {
                   </div>
                   <div className="order-conf-summary-item">
                     <span className="order-conf-item-label">TOTAL AMOUNT</span>
-                    <div className="order-conf-item-value order-conf-total-value">₹{currentOrder.total_amount}</div>
+                    <div className="order-conf-item-value order-conf-total-value">₹{totalAmount.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+                  </div>
+                </div>
+
+                {/* GST Details Breakdown */}
+                <div className="order-conf-gst-breakdown mt-3 pt-3" style={{ borderTop: '1px dashed #e2e8f0' }}>
+                  <div style={{ fontSize: '11px', fontWeight: 'bold', color: '#800000', letterSpacing: '0.5px', marginBottom: '8px', textTransform: 'uppercase' }}>
+                    Tax Invoice / GST Details (5% Inclusive)
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', color: '#64748b' }}>
+                      <span>Taxable Amount (Base Price)</span>
+                      <span style={{ fontWeight: 600, color: '#1e293b' }}>₹{taxableAmount.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', color: '#64748b' }}>
+                      <span>Includes GST (5%)</span>
+                      <span style={{ fontWeight: 600, color: '#1e293b' }}>₹{totalGst.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: '#64748b', paddingLeft: '12px', borderLeft: '2px solid #cbd5e1' }}>
+                      <span>CGST (2.5%)</span>
+                      <span style={{ fontWeight: 500, color: '#1e293b' }}>₹{cgst.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: '#64748b', paddingLeft: '12px', borderLeft: '2px solid #cbd5e1' }}>
+                      <span>SGST (2.5%)</span>
+                      <span style={{ fontWeight: 500, color: '#1e293b' }}>₹{sgst.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                    </div>
                   </div>
                 </div>
               </div>

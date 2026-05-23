@@ -273,16 +273,39 @@ ${liveUrl}`;
                     <img src={typeof buyNowIcon === 'string' ? buyNowIcon : (buyNowIcon as any).src} alt="Buy Now" width="14" height="18" />
                     {isBuyingNow ? 'Processing...' : 'Buy Now'}
                 </button>
-                <button
-                    className="btn btn-add-cart w-100 d-flex justify-content-center align-items-center gap-2"
-                    disabled={isOutOfStock || isAddingToCart || isBuyingNow}
-                    onClick={handleAddToCart}
-                    style={{ height: '50px', fontSize: '16px' }}
-                >
-                    {isAddingToCart ? (
-                        <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                    ) : 'Add to Cart'}
-                </button>
+                <div className="d-flex align-items-center gap-2 w-100">
+                    <div className="product-qty-selector">
+                        <button 
+                            type="button"
+                            className="product-qty-btn"
+                            onClick={() => setQuantity(prev => Math.max(1, prev - 1))}
+                            disabled={quantity <= 1 || isOutOfStock || isAddingToCart || isBuyingNow}
+                        >
+                            −
+                        </button>
+                        <span className="product-qty-val">
+                            {quantity}
+                        </span>
+                        <button 
+                            type="button"
+                            className="product-qty-btn"
+                            onClick={() => setQuantity(prev => Math.min(10, prev + 1))}
+                            disabled={quantity >= 10 || isOutOfStock || isAddingToCart || isBuyingNow}
+                        >
+                            +
+                        </button>
+                    </div>
+                    <button
+                        className="btn btn-add-cart flex-grow-1 d-flex justify-content-center align-items-center gap-2 m-0"
+                        disabled={isOutOfStock || isAddingToCart || isBuyingNow}
+                        onClick={handleAddToCart}
+                        style={{ height: '50px', fontSize: '16px' }}
+                    >
+                        {isAddingToCart ? (
+                            <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        ) : 'Add to Cart'}
+                    </button>
+                </div>
                 <button 
                     type="button"
                     className="btn btn-whatsapp w-100 d-flex justify-content-center align-items-center gap-2" 

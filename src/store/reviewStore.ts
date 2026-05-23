@@ -20,6 +20,8 @@ export const useReviewStore = create<any>((set, get) => ({
     error: null,
     page: 1,
     hasMore: true,
+    uploadProgress: 0,
+    activeXhr: null,
 
     fetchReviewSummary: async (productId: any) => {
         set({ summaryLoading: true, error: null });
@@ -70,34 +72,99 @@ export const useReviewStore = create<any>((set, get) => ({
     },
 
     submitReview: async (productId: any, reviewData: any, token: any = null) => {
-        set({ loading: true, error: null });
-        try {
-            const headers: any = { 'Content-Type': 'application/json' };
-            if (token) headers['Authorization'] = `Bearer ${token}`;
+        set({ loading: true, uploadProgress: 0, error: null });
+        return new Promise((resolve) => {
+            try {
+                let body: any;
+                let headers: any = {};
+                
+                if (reviewData instanceof FormData) {
+                    body = reviewData;
+                } else if (reviewData.video) {
+                    const formData = new FormData();
+                    formData.append('rating', String(reviewData.rating));
+                    if (reviewData.comment) {
+                        formData.append('comment', reviewData.comment);
+                    }
+                    formData.append('video', reviewData.video);
+                    body = formData;
+                } else {
+                    headers['Content-Type'] = 'application/json';
+                    body = JSON.stringify(reviewData);
+                }
 
-            const response = await fetch(`${API_BASE_URL}/products/${productId}/reviews`, {
-                method: 'POST',
-                headers: headers,
-                body: JSON.stringify(reviewData),
-            });
+                const xhr = new XMLHttpRequest();
+                set({ activeXhr: xhr });
+                
+                xhr.open('POST', `${API_BASE_URL}/products/${productId}/reviews`);
+                
+                // Set authorization token if provided
+                if (token) {
+                    xhr.setRequestHeader('Authorization', `Bearer ${token}`);
+                }
+                
+                // Set additional headers
+                Object.keys(headers).forEach(key => {
+                    xhr.setRequestHeader(key, headers[key]);
+                });
 
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || "Failed to submit review");
+                // Track upload progress
+                if (xhr.upload) {
+                    xhr.upload.onprogress = (event) => {
+                        if (event.lengthComputable) {
+                            const percentComplete = Math.round((event.loaded / event.total) * 100);
+                            set({ uploadProgress: percentComplete });
+                        }
+                    };
+                }
+
+                xhr.onload = async () => {
+                    set({ activeXhr: null });
+                    let responseData: any;
+                    try {
+                        responseData = JSON.parse(xhr.responseText);
+                    } catch (e) {
+                        responseData = { success: false, message: xhr.responseText || "Unknown error occurred" };
+                    }
+
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        set({ loading: false, uploadProgress: 100 });
+                        // Refresh summary and list
+                        get().fetchReviewSummary(productId);
+                        get().fetchReviews(productId, 1, 10, true);
+                        resolve({ success: true, data: responseData.data });
+                    } else {
+                        const errMsg = responseData.message || responseData.error || "Failed to submit review";
+                        set({ error: errMsg, loading: false, uploadProgress: 0 });
+                        resolve({ success: false, error: errMsg });
+                    }
+                };
+
+                xhr.onerror = () => {
+                    set({ activeXhr: null });
+                    const errMsg = "Network request failed";
+                    set({ error: errMsg, loading: false, uploadProgress: 0 });
+                    resolve({ success: false, error: errMsg });
+                };
+
+                xhr.onabort = () => {
+                    set({ activeXhr: null, loading: false, uploadProgress: 0 });
+                    resolve({ success: false, error: "Upload cancelled" });
+                };
+
+                xhr.send(body);
+            } catch (err: any) {
+                set({ activeXhr: null, error: err.message, loading: false, uploadProgress: 0 });
+                resolve({ success: false, error: err.message });
             }
+        });
+    },
 
-            const data = await response.json();
-            if (data.success || data.message) {
-                set({ loading: false });
-                // Refresh summary and list
-                get().fetchReviewSummary(productId);
-                get().fetchReviews(productId, 1, 10, true);
-                return { success: true };
-            }
-            return { success: false, error: "Submission failed" };
-        } catch (err: any) {
-            set({ error: err.message, loading: false });
-            return { success: false, error: err.message };
+    cancelSubmitReview: () => {
+        const xhr = get().activeXhr;
+        if (xhr) {
+            xhr.abort();
+            set({ activeXhr: null, loading: false, uploadProgress: 0 });
         }
     }
 }));

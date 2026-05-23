@@ -95,8 +95,8 @@ const Navbar = () => {
                 onClick={() => setMenuOpen(false)}
             ></div>
             <div className="navbar-inner">
-                {/* Logo */}
-                <div className="logo-container">
+                {/* Logo — clicking always returns to home */}
+                <Link href="/" aria-label="Go to home page" className="logo-container" style={{ display: 'flex', alignItems: 'center' }}>
                     <img
                         src={typeof logoSrc === 'string' ? logoSrc : (logoSrc as any).src}
                         alt={siteInfo.site_title || "Kanchipuram Silk Logo"}
@@ -106,7 +106,7 @@ const Navbar = () => {
                             e.target.src = typeof Logo === 'string' ? Logo : (Logo as any).src;
                         }}
                     />
-                </div>
+                </Link>
 
                 {/* Desktop Nav */}
                 <div className="nav-inner-content">

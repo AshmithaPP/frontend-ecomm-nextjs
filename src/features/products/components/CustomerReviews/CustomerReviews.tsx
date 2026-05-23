@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useReviewStore } from '@/store/reviewStore';
 import { useAuthStore } from '@/store/authStore';
+import { toast } from 'react-toastify';
+import { resolveMediaUrl } from '@/config/api';
 import './customerReviews.css';
 
 // ── Inline sub-components ───────────────────────────────────────────────────
@@ -110,6 +112,16 @@ const ReviewCard = ({ review }: ReviewCardProps) => {
     const helpfulCount = review.helpfulCount || review.helpful_count || 0;
     const avatar = review.avatar || review.Customer?.profile_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(customerName)}&background=e5e7eb&color=374151`;
 
+    const videoUrl = typeof review.video === 'object' && review.video !== null
+        ? review.video.url
+        : (typeof review.video === 'string' ? review.video : null);
+    const videoThumb = typeof review.video === 'object' && review.video !== null
+        ? review.video.thumbnailUrl
+        : null;
+
+    const resolvedVideoUrl = videoUrl ? resolveMediaUrl(videoUrl) : null;
+    const resolvedThumbUrl = videoThumb ? resolveMediaUrl(videoThumb) : null;
+
     return (
         <div className="review-card">
             <div className="review-header">
@@ -139,6 +151,19 @@ const ReviewCard = ({ review }: ReviewCardProps) => {
                     {review.images.map((img: any, idx: number) => (
                         <img key={idx} src={img} alt="Review" className="review-image-thumb" />
                     ))}
+                </div>
+            )}
+
+            {resolvedVideoUrl && (
+                <div className="review-video-wrapper mt-3 mb-3 ms-md-5 ps-md-3" style={{ maxWidth: '400px' }}>
+                    <video
+                        src={resolvedVideoUrl}
+                        poster={resolvedThumbUrl || undefined}
+                        controls
+                        className="review-video-player rounded border"
+                        style={{ width: '100%', maxHeight: '250px', objectFit: 'contain', backgroundColor: '#000' }}
+                        preload="none"
+                    />
                 </div>
             )}
 
@@ -173,13 +198,19 @@ const CustomerReviews = ({ productId }: CustomerReviewsProps) => {
         fetchReviewSummary,
         submitReview,
         hasMore,
-        page
+        page,
+        uploadProgress,
+        cancelSubmitReview
     } = useReviewStore();
     const { user, token, isAuthenticated } = useAuthStore();
 
     const [showForm, setShowForm] = useState(false);
-    const [newReview, setNewReview] = useState({ rating: 5, comment: '' });
+    const [newReview, setNewReview] = useState({ rating: 0, comment: '' });
     const [submitLoading, setSubmitLoading] = useState(false);
+    
+    // Video upload states
+    const [videoFile, setVideoFile] = useState<File | null>(null);
+    const [videoPreview, setVideoPreview] = useState<string | null>(null);
 
     useEffect(() => {
         if (productId) {
@@ -188,27 +219,141 @@ const CustomerReviews = ({ productId }: CustomerReviewsProps) => {
         }
     }, [productId, fetchReviewSummary, fetchReviews]);
 
+    useEffect(() => {
+        return () => {
+            if (videoPreview) {
+                URL.revokeObjectURL(videoPreview);
+            }
+        };
+    }, [videoPreview]);
+
     const handleLoadMore = () => {
         fetchReviews(productId, page + 1, 10);
     };
 
+    const handleCancelClick = () => {
+        if (showForm) {
+            if (submitLoading) {
+                // Abort active upload stream
+                cancelSubmitReview();
+                setSubmitLoading(false);
+                toast.warning("Review upload cancelled", { position: "top-right" });
+            }
+            // Clear all uploader inputs and previews
+            setNewReview({ rating: 0, comment: '' });
+            clearSelectedVideo();
+            setShowForm(false);
+        } else {
+            setShowForm(true);
+        }
+    };
+
+    const validateVideo = (file: File): Promise<string | null> => {
+        return new Promise((resolve) => {
+            // Extension check & MIME check
+            const ext = file.name.split('.').pop()?.toLowerCase();
+            if (ext !== 'mp4' || file.type !== 'video/mp4') {
+                resolve("Only MP4 videos are allowed");
+                return;
+            }
+            
+            // Max size 50MB
+            if (file.size > 50 * 1024 * 1024) {
+                resolve("Video exceeds 50MB limit");
+                return;
+            }
+
+            // Duration check
+            const video = document.createElement('video');
+            video.preload = 'metadata';
+            video.onloadedmetadata = () => {
+                window.URL.revokeObjectURL(video.src);
+                if (video.duration > 60) {
+                    resolve("Video duration cannot exceed 60 seconds");
+                } else {
+                    resolve(null);
+                }
+            };
+            video.onerror = () => {
+                window.URL.revokeObjectURL(video.src);
+                resolve("Failed to load video metadata");
+            };
+            video.src = URL.createObjectURL(file);
+        });
+    };
+
+    const handleVideoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        // Run validation immediately upon file selection
+        const error = await validateVideo(file);
+        if (error) {
+            toast.error(error, { position: "top-right" });
+            e.target.value = ''; // Reset input element
+            setVideoFile(null);
+            setVideoPreview(null);
+            return;
+        }
+
+        setVideoFile(file);
+        setVideoPreview(URL.createObjectURL(file));
+    };
+
+    const clearSelectedVideo = () => {
+        setVideoFile(null);
+        if (videoPreview) {
+            URL.revokeObjectURL(videoPreview);
+            setVideoPreview(null);
+        }
+        const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+        if (fileInput) fileInput.value = '';
+    };
+
     const handleFormSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        // 1. Validate rating
+        if (!newReview.rating || newReview.rating < 1 || newReview.rating > 5) {
+            toast.error("Rating is required and must be between 1 and 5", { position: "top-right" });
+            return;
+        }
+
+        // 2. Validate video presence & authentication
+        if (videoFile) {
+            if (!isAuthenticated) {
+                toast.error("Video uploads require authentication", { position: "top-right" });
+                return;
+            }
+
+            const error = await validateVideo(videoFile);
+            if (error) {
+                toast.error(error, { position: "top-right" });
+                return;
+            }
+        }
+
         setSubmitLoading(true);
         
-        const reviewData = {
-            rating: newReview.rating,
-            comment: newReview.comment,
-            userId: user?.user_id || user?.id
-        };
+        // Construct FormData for upload
+        const formData = new FormData();
+        formData.append("rating", String(newReview.rating));
+        if (newReview.comment.trim()) {
+            formData.append("comment", newReview.comment.trim());
+        }
+        if (videoFile) {
+            formData.append("video", videoFile);
+        }
 
-        const result = await submitReview(productId, reviewData, token);
+        const result = await submitReview(productId, formData, token);
         
         if (result.success) {
+            toast.success("Review added successfully", { position: "top-right" });
             setShowForm(false);
-            setNewReview({ rating: 5, comment: '' });
+            setNewReview({ rating: 0, comment: '' });
+            clearSelectedVideo();
         } else {
-            alert(result.error);
+            toast.error(result.error || "Failed to submit review", { position: "top-right" });
         }
         setSubmitLoading(false);
     };
@@ -220,7 +365,7 @@ const CustomerReviews = ({ productId }: CustomerReviewsProps) => {
             <div className="d-flex justify-content-between align-items-center mb-5">
                 <h3 className="reviews-section-title mb-0">Customer Reviews</h3>
                 <button 
-                    onClick={() => setShowForm(!showForm)} 
+                    onClick={handleCancelClick} 
                     className={`write-review-btn ${showForm ? 'cancel-mode' : ''}`}
                 >
                     {showForm ? (
@@ -240,31 +385,83 @@ const CustomerReviews = ({ productId }: CustomerReviewsProps) => {
             {/* Review Form */}
             {showForm && (
                 <div className="review-form-container mb-5 p-4 border rounded bg-light shadow-sm">
-                    <h4 className="mb-4">Share Your Thoughts</h4>
+                    <h4 className="mb-4 text-dark fw-bold">Share Your Thoughts</h4>
                     <form onSubmit={handleFormSubmit}>
                         <div className="mb-4">
-                            <label className="form-label d-block fw-bold">Overall Rating (Required)</label>
+                            <label className="form-label d-block fw-bold text-dark">Overall Rating </label>
                             <div className="star-rating-input">
                                 <RatingStars 
                                     rating={newReview.rating} 
                                     size="large" 
-                                    onClick={(val: number) => setNewReview({...newReview, rating: val})} 
+                                    onClick={(val: number) => !submitLoading && setNewReview({...newReview, rating: val})} 
                                 />
                             </div>
                         </div>
 
                         <div className="mb-4">
-                            <label className="form-label fw-bold">Your Review (Optional)</label>
+                            <label className="form-label fw-bold text-dark">Your Review (Optional)</label>
                             <textarea 
                                 className="form-control" 
                                 rows={4}
                                 value={newReview.comment}
                                 onChange={(e) => setNewReview({...newReview, comment: e.target.value})}
                                 placeholder="What did you like or dislike about the product?"
+                                disabled={submitLoading}
                             ></textarea>
                         </div>
-                        <button type="submit" className="submit-review-btn" disabled={submitLoading}>
-                            {submitLoading ? 'Submitting...' : 'Post Review'}
+
+                        <div className="mb-4">
+                            <label className="form-label fw-bold text-dark">Add Video Review (Optional - MP4 only, max 50MB, max 60s)</label>
+                            <input 
+                                type="file" 
+                                className="form-control" 
+                                accept="video/mp4"
+                                onChange={handleVideoChange}
+                                disabled={submitLoading}
+                            />
+                            {videoPreview && (
+                                <div className="mt-3 video-preview-container position-relative rounded border p-1 bg-white" style={{ maxWidth: '300px' }}>
+                                    <video 
+                                        src={videoPreview} 
+                                        controls 
+                                        className="rounded w-100" 
+                                        style={{ maxHeight: '180px', objectFit: 'contain', backgroundColor: '#000' }}
+                                    />
+                                    <button 
+                                        type="button" 
+                                        className="btn btn-sm btn-danger position-absolute top-0 end-0 m-2 rounded-circle d-flex align-items-center justify-content-center shadow"
+                                        onClick={clearSelectedVideo}
+                                        style={{ width: '26px', height: '26px', padding: 0, border: 'none', zIndex: 10 }}
+                                        title="Remove Video"
+                                        disabled={submitLoading}
+                                    >
+                                        <CloseIcon />
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+
+                        {submitLoading && (
+                            <div className="upload-progress-container mb-4 p-3 border rounded bg-white shadow-sm">
+                                <div className="d-flex justify-content-between align-items-center mb-2">
+                                    <span className="upload-label small fw-bold text-dark">Uploading Video & Review...</span>
+                                    <span className="upload-percent small fw-bold text-success">{uploadProgress}%</span>
+                                </div>
+                                <div className="progress" style={{ height: '8px', borderRadius: '4px' }}>
+                                    <div
+                                        className="progress-bar progress-bar-striped progress-bar-animated bg-success"
+                                        role="progressbar"
+                                        style={{ width: `${uploadProgress}%` }}
+                                        aria-valuenow={uploadProgress}
+                                        aria-valuemin={0}
+                                        aria-valuemax={100}
+                                    />
+                                </div>
+                            </div>
+                        )}
+
+                        <button type="submit" className="submit-review-btn btn btn-dark px-4 py-2 fw-bold text-uppercase" disabled={submitLoading}>
+                            {submitLoading ? 'Uploading Review...' : 'Post Review'}
                         </button>
                     </form>
                 </div>

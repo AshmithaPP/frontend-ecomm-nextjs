@@ -2,7 +2,6 @@
 
 import React, { useEffect } from 'react';
 import Breadcrumbs from 'components/ui/Breadcrumbs/Breadcrumbs';
-import Sidebar from 'features/wishlist/components/Sidebar/Sidebar';
 import WishlistCard from 'features/wishlist/components/WishlistCard/WishlistCard';
 import { useWishlistStore } from '@/store/wishlistStore';
 import { useCartStore } from '@/store/cartStore';
@@ -41,11 +40,6 @@ const WishlistPage = () => {
             {/* Layout Box container for exact replica background */}
             <div className="wishlist-layout-wrapper">
                 <div className="row g-4">
-                    {/* Left Sidebar */}
-                    <div className="col-lg-3 col-md-4">
-                        <Sidebar />
-                    </div>
-
                     {/* Right Content */}
                     <div className="col-lg-9 col-md-8">
                         <div className="wishlist-content-area">
