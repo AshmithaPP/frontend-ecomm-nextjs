@@ -14,9 +14,9 @@ const CircleCard = ({ image, title, url }: CircleCardProps) => {
     <div className="circle-card-item">
       <div className="circle-image-wrapper">
         {typeof image === 'string' ? (
-            <img src={image} alt={title} className="circle-image" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <img src={image} alt={title} className="circle-image" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }} />
         ) : (
-            <Image src={image} alt={title} className="circle-image" width={200} height={200} />
+            <Image src={image} alt={title} className="circle-image" width={200} height={200} style={{ objectFit: 'cover', objectPosition: 'center top' }} />
         )}
       </div>
       <h3 className="circle-card-title">{title}</h3>
