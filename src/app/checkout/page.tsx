@@ -200,7 +200,7 @@ const checkoutSchema = z.object({
 const CheckoutPage = () => {
     const router = useRouter();
     const { addresses, fetchAddresses, addAddress, loading: addressLoading } = useAddressStore();
-    const { cart, fetchCart, applyCoupon: applyCouponAPI, fetchActiveCoupons, mergeCart } = useCartStore();
+    const { cart, fetchCart, loading: cartLoading, applyCoupon: applyCouponAPI, fetchActiveCoupons, mergeCart } = useCartStore();
     const { placeOrder, loading: orderLoading } = useOrderStore();
     const { isAuthenticated, user, token } = useAuthStore();
 
@@ -214,6 +214,8 @@ const CheckoutPage = () => {
     const [availableCoupons, setAvailableCoupons] = useState<any[]>([]);
     const [showCouponList, setShowCouponList] = useState(false);
     const [checkoutMode, setCheckoutMode] = useState('guest');
+    // Tracks whether the initial cart fetch has completed — prevents premature empty-cart flash
+    const [isCartInitialized, setIsCartInitialized] = useState(false);
 
     // React Hook Form Integration
     const { register, handleSubmit, getValues, setValue, watch, formState } = useForm({
@@ -259,7 +261,9 @@ const CheckoutPage = () => {
                 // Ensure guest cart is merged into user cart
                 await mergeCart();
             }
-            fetchCart(selectedAddress?.state || stateValue);
+            await fetchCart(selectedAddress?.state || stateValue);
+            // Mark cart as initialized only after the first fetch is done
+            setIsCartInitialized(true);
         };
         initCart();
     }, [isAuthenticated]);
@@ -403,6 +407,20 @@ const CheckoutPage = () => {
         setSelectedAddress(addr);
         setShowAddressList(false);
     };
+
+    // Show a spinner until the first cart fetch completes — prevents the premature "cart is empty" flash
+    if (!isCartInitialized) {
+        return (
+            <div className="container text-center py-5">
+                <div className="d-flex flex-column align-items-center gap-3">
+                    <div className="spinner-border text-dark" role="status" style={{ width: '2.5rem', height: '2.5rem' }}>
+                        <span className="visually-hidden">Loading cart...</span>
+                    </div>
+                    <p className="text-muted">Loading your cart...</p>
+                </div>
+            </div>
+        );
+    }
 
     if (cartItems.length === 0 && !orderLoading) {
         return (
