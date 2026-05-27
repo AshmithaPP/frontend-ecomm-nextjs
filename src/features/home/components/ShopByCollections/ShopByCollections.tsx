@@ -17,12 +17,18 @@ interface ShopByCollectionsProps {
     title?: string;
     subtitle?: string;
     products?: any[];
+    sectionId?: string;
+    sectionTitle?: string;
+    isFeatured?: boolean;
 }
 
 const ShopByCollections = ({ 
     title = "Shop by Collections", 
     subtitle = "Curated selections for every occasion",
-    products: initialProducts = [] 
+    products: initialProducts = [],
+    sectionId,
+    sectionTitle,
+    isFeatured
 }: ShopByCollectionsProps) => {
     const router = useRouter();
     const scrollRef = useRef<HTMLDivElement>(null);
@@ -165,6 +171,16 @@ const ShopByCollections = ({
                 <button 
                     className={styles.exploreMoreBtn} 
                     onClick={() => {
+                        if (isFeatured) {
+                            router.push(`/collections/products?is_featured=true&section_title=${encodeURIComponent(sectionTitle || 'Featured Collection')}`);
+                            return;
+                        }
+
+                        if (sectionId && sectionTitle) {
+                            router.push(`/collections/products?section_id=${sectionId}&section_title=${encodeURIComponent(sectionTitle)}`);
+                            return;
+                        }
+
                         const slugify = (value: string) => value
                             .toString()
                             .trim()

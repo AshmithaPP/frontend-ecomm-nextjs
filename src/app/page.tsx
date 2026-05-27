@@ -73,6 +73,8 @@ export default function Home() {
       {homeData.featured_products?.length > 0 && (
         <ShopByCollections 
           title="Featured Collection" 
+          isFeatured={true}
+          sectionTitle="Featured Collection"
           products={homeData.featured_products.map(mapHomeProduct)} 
         />
       )}
@@ -82,6 +84,8 @@ export default function Home() {
         <ShopByCollections 
           key={section.section_id} 
           title={section.title} 
+          sectionId={section.section_id}
+          sectionTitle={section.title}
           products={section.products.map(mapHomeProduct)} 
         />
       ))}

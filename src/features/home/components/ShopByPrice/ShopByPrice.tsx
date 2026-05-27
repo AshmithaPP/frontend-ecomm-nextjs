@@ -57,74 +57,81 @@ const priceData = [
 import { resolveMediaUrl } from '@/config/api';
 
 const getFilterUrlFromLabel = (label: string, minPrice: any, maxPrice: any) => {
-    let resolvedMin = minPrice;
-    let resolvedMax = maxPrice;
+    // Dynamically use price bounds passed directly from database/API
+    let resolvedMin = minPrice !== undefined && minPrice !== null ? Math.round(Number(minPrice)) : 0;
+    let resolvedMax = maxPrice !== undefined && maxPrice !== null ? Math.round(Number(maxPrice)) : 50000;
     
     const lowerLabel = label.toLowerCase();
     
-    // Parse label like "500 to 3k", "Under 5k", "30k – 50k", or "5k - 10k" to avoid database misalignments
-    const cleanText = lowerLabel.replace(/₹/g, '').replace(/,/g, '');
-    
-    if (cleanText.includes('under') || cleanText.includes('below')) {
-        resolvedMin = 0;
-        const matches = cleanText.match(/(\d+)\s*k/);
-        if (matches) {
-            resolvedMax = Number(matches[1]) * 1000;
-        } else {
-            const numMatches = cleanText.match(/(\d+)/);
-            if (numMatches) resolvedMax = Number(numMatches[1]);
-        }
-    } else {
-        const parts = cleanText.split(/to|-|–|\//).map(p => p.trim());
-        if (parts.length >= 2) {
-            // Parse min
-            const minPart = parts[0];
-            if (minPart.includes('k')) {
-                const kVal = minPart.match(/(\d+(\.\d+)?)\s*k/);
-                if (kVal) resolvedMin = Number(kVal[1]) * 1000;
+    // In case min_price/max_price are not set or 0 on legacy structures, fallback to label parsing
+    if (resolvedMin === 0 && resolvedMax === 0) {
+        const cleanText = lowerLabel.replace(/₹/g, '').replace(/,/g, '');
+        if (cleanText.includes('under') || cleanText.includes('below')) {
+            resolvedMin = 0;
+            const matches = cleanText.match(/(\d+)\s*k/);
+            if (matches) {
+                resolvedMax = Number(matches[1]) * 1000;
             } else {
-                const numVal = minPart.match(/(\d+)/);
-                if (numVal) resolvedMin = Number(numVal[1]);
+                const numMatches = cleanText.match(/(\d+)/);
+                if (numMatches) resolvedMax = Number(numMatches[1]);
             }
-            
-            // Parse max
-            const maxPart = parts[1];
-            if (maxPart.includes('k')) {
-                const kVal = maxPart.match(/(\d+(\.\d+)?)\s*k/);
-                if (kVal) resolvedMax = Number(kVal[1]) * 1000;
-            } else {
-                const numVal = maxPart.match(/(\d+)/);
-                if (numVal) resolvedMax = Number(numVal[1]);
+        } else {
+            const parts = cleanText.split(/to|-|–|\//).map(p => p.trim());
+            if (parts.length >= 2) {
+                // Parse min
+                const minPart = parts[0];
+                if (minPart.includes('k')) {
+                    const kVal = minPart.match(/(\d+(\.\d+)?)\s*k/);
+                    if (kVal) resolvedMin = Number(kVal[1]) * 1000;
+                } else {
+                    const numVal = minPart.match(/(\d+)/);
+                    if (numVal) resolvedMin = Number(numVal[1]);
+                }
+                
+                // Parse max
+                const maxPart = parts[1];
+                if (maxPart.includes('k')) {
+                    const kVal = maxPart.match(/(\d+(\.\d+)?)\s*k/);
+                    if (kVal) resolvedMax = Number(kVal[1]) * 1000;
+                } else {
+                    const numVal = maxPart.match(/(\d+)/);
+                    if (numVal) resolvedMax = Number(numVal[1]);
+                }
             }
         }
     }
 
     let url = `/collections/products?min_price=${resolvedMin}&max_price=${resolvedMax}`;
     
-    // Check categories
-    if (lowerLabel.includes('kurtis') || lowerLabel.includes('kurti')) {
-        url += '&category=kurtis';
-    } else if (lowerLabel.includes('lehanga') || lowerLabel.includes('lehnga')) {
-        url += '&category=lehanga';
-    } else if (lowerLabel.includes('lightweight')) {
-        url += '&category=lightweight-silk-sarees';
-    } else if (lowerLabel.includes('bridal') && lowerLabel.includes('kanchipuram')) {
-        url += '&category=bridal-kanchipuram-sarees';
-    } else if (lowerLabel.includes('saree') || lowerLabel.includes('sarees')) {
-        url += '&category=sarees';
-    } else if (lowerLabel.includes('ethnic') || lowerLabel.includes('women ethnic')) {
-        url += '&category=women-ethnic-wear';
+    // Dynamic matching for categories
+    const categoriesList = ['saree', 'lehanga', 'kurti', 'night-suit'];
+    const matchedCategory = categoriesList.find(c => 
+        lowerLabel.includes(c) || 
+        (c === 'saree' && lowerLabel.includes('sarees')) || 
+        (c === 'kurti' && lowerLabel.includes('kurtis')) ||
+        (c === 'lehanga' && lowerLabel.includes('lehenga')) ||
+        (c === 'night-suit' && lowerLabel.includes('nightsuit'))
+    );
+    
+    if (matchedCategory) {
+        let slug = matchedCategory;
+        if (slug === 'saree') slug = 'sarees'; // Match frontend categories mapping
+        if (slug === 'kurti') slug = 'kurtis';
+        url += `&category=${slug}`;
     }
     
-    // Check occasions
-    if (lowerLabel.includes('office')) {
-        url += '&occasion=office-wear';
-    } else if (lowerLabel.includes('everyday')) {
-        url += '&occasion=everyday-wear';
-    } else if (lowerLabel.includes('wedding') || lowerLabel.includes('bridal')) {
-        url += '&occasion=bridal-wear';
-    } else if (lowerLabel.includes('festive')) {
-        url += '&occasion=festive-wear';
+    // Dynamic matching for occasions
+    const occasionsList = ['wedding', 'party', 'casual', 'office'];
+    const matchedOccasion = occasionsList.find(o => 
+        lowerLabel.includes(o) || 
+        (o === 'wedding' && lowerLabel.includes('bridal')) ||
+        (o === 'party' && lowerLabel.includes('festive')) ||
+        (o === 'casual' && lowerLabel.includes('everyday')) ||
+        (o === 'office' && lowerLabel.includes('work'))
+    );
+    
+    if (matchedOccasion) {
+        url += `&occasion=${matchedOccasion}`;
     }
     
     return url;
@@ -160,13 +167,13 @@ const ShopByPrice = ({ data }: ShopByPriceProps) => {
     }, []);
 
     const displayData = data && data.length > 0 ? data.map((item, index) => ({
-        id: index + 1,
+        id: item.price_filter_id || String(index + 1),
         title: item.label,
         type: index === 0 ? 'large' : 'small',
         image: item.image_url 
             ? resolveMediaUrl(item.image_url)
             : (index === 0 ? largeSaree : (index === 1 ? everydaySaree : (index === 2 ? officeSaree : (index === 3 ? weddingSaree : festiveSaree)))),
-        url: getFilterUrlFromLabel(item.label, item.min_price, item.max_price)
+        url: item.redirect_url || getFilterUrlFromLabel(item.label, item.min_price, item.max_price)
     })) : priceData.map(item => ({
         ...item,
         url: getFilterUrlFromLabel(item.title, item.min_price, item.max_price)

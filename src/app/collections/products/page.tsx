@@ -49,7 +49,7 @@ const ProductsContent = () => {
         // Remove keys that are NOT in latestFilters but are in the URL 
         const activeKeys = Object.keys(latestFilters);
         Array.from(searchParams.keys()).forEach(key => {
-            if (!activeKeys.includes(key) && key !== 'page' && key !== 'limit' && key !== 'sort' && key !== 'category') {
+            if (!activeKeys.includes(key) && key !== 'page' && key !== 'limit' && key !== 'sort' && key !== 'category' && key !== 'section_id' && key !== 'section_title' && key !== 'is_featured') {
                 currentParams.delete(key);
             }
         });
@@ -116,9 +116,11 @@ const ProductsContent = () => {
                     <div className="row mb-4">
                         <div className="col-12 d-flex justify-content-between align-items-center flex-wrap gap-3">
                             <h2 className="products-title m-0">
-                                {activeFilters.category
-                                    ? activeFilters.category.split(',').map((s: string) => s.charAt(0).toUpperCase() + s.slice(1)).join(', ')
-                                    : 'All Collections'}
+                                {activeFilters.section_title
+                                    ? decodeURIComponent(activeFilters.section_title)
+                                    : (activeFilters.category
+                                        ? activeFilters.category.split(',').map((s: string) => s.charAt(0).toUpperCase() + s.slice(1)).join(', ')
+                                        : 'All Collections')}
                             </h2>
 
                             <div className="products-meta-controls d-flex align-items-center gap-3">

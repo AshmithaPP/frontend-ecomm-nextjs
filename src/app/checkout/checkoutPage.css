@@ -1073,3 +1073,77 @@
         white-space: normal;
     }
 }
+
+/* Inline form validation styling */
+.form-input-group {
+    position: relative;
+    width: 100%;
+}
+
+.custom-input.is-invalid {
+    border-bottom: 2px solid #BA1A1A !important;
+}
+
+.error-message {
+    color: #BA1A1A;
+    font-size: 12px;
+    font-family: var(--font-jost);
+    font-weight: 500;
+    margin-top: 4px;
+    display: block;
+    text-align: left;
+    animation: slideDown 0.2s ease-out forwards;
+}
+
+.input-success-tick {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #28a745;
+    font-size: 16px;
+    pointer-events: none;
+    animation: scaleIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* For selects, position the success tick slightly to the left of the arrow */
+.select-wrapper .input-success-tick {
+    right: 36px;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50%) scale(0.5);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(-50%) scale(1);
+    }
+}
+
+/* Place order button disabled styling */
+.btn-pay-now:disabled {
+    background-color: #cccccc !important;
+    color: #666666 !important;
+    cursor: not-allowed !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+.btn-payment-action.active {
+    border-color: var(--primary-color) !important;
+    background-color: rgba(164, 40, 41, 0.05) !important;
+    color: var(--primary-color) !important;
+}

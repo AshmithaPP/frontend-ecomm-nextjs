@@ -9,6 +9,9 @@ import { useCartStore } from '@/store/cartStore';
 import { useOrderStore } from '@/store/orderStore';
 import ProtectedRoute from '@/components/auth/ProtectedRoute';
 import { toast } from 'react-toastify';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
 import './checkoutPage.css';
 
 // Asset Imports
@@ -18,6 +21,181 @@ import orderIcon2 from 'assets/icons/ui/orderIcon2.png';
 import orderIcon3 from 'assets/icons/ui/orderIcon3.png';
 import vaikundhasilk from 'assets/images/silk/vaikundhasilk.jpg';
 import { resolveMediaUrl } from '@/config/api';
+
+const checkoutSchema = z.object({
+    hasSavedAddress: z.boolean(),
+    fullName: z.string().optional(),
+    mobileNumber: z.string().optional(),
+    email: z.string().optional(),
+    address: z.string().optional(),
+    address2: z.string().optional(),
+    city: z.string().optional(),
+    state: z.string().optional(),
+    pincode: z.string().optional(),
+    addressType: z.string().default('home'),
+    saveAddress: z.boolean().default(false),
+    paymentMethod: z.enum(['UPI', 'CARD', 'NETBANKING', 'COD']),
+    upiId: z.string().optional(),
+    upiSelection: z.string().default('stored'),
+    cardNumber: z.string().optional(),
+    cardExpiry: z.string().optional(),
+    cardCvv: z.string().optional(),
+    cardholderName: z.string().optional(),
+    orderNotes: z.string().max(500, "Order notes must be under 500 characters").optional()
+}).superRefine((data, ctx) => {
+    if (!data.hasSavedAddress) {
+        if (!data.fullName || data.fullName.trim().length < 2) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: "Name must be at least 2 characters",
+                path: ["fullName"]
+            });
+        } else if (data.fullName.trim().length > 80) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: "Name too long",
+                path: ["fullName"]
+            });
+        } else if (!/^[A-Za-z\s.'-]+$/.test(data.fullName)) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: "Only letters and valid name characters allowed",
+                path: ["fullName"]
+            });
+        }
+
+        if (!data.mobileNumber || !/^[6-9]\d{9}$/.test(data.mobileNumber.replace(/\s+/g, ''))) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: "Please enter a valid 10-digit Indian mobile number",
+                path: ["mobileNumber"]
+            });
+        }
+
+        if (!data.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: "Please enter a valid email address",
+                path: ["email"]
+            });
+        }
+
+        if (!data.address || data.address.trim().length < 5) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: "Address must be at least 5 characters",
+                path: ["address"]
+            });
+        }
+
+        if (data.address2 && data.address2.length > 150) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: "Area/Street must be under 150 characters",
+                path: ["address2"]
+            });
+        }
+
+        if (!data.city || !/^[a-zA-Z\s]+$/.test(data.city)) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: "City is required and can only contain alphabets",
+                path: ["city"]
+            });
+        }
+
+        if (!data.state) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: "Please select a state",
+                path: ["state"]
+            });
+        }
+
+        if (!data.pincode || !/^[1-9]\d{5}$/.test(data.pincode.replace(/\s+/g, ''))) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: "Please enter a valid 6-digit Indian pincode",
+                path: ["pincode"]
+            });
+        }
+    }
+
+    if (data.paymentMethod === 'UPI' && data.upiSelection === 'new') {
+        if (!data.upiId || !/^[a-zA-Z0-9.\-_]{2,256}@[a-zA-Z]{2,64}$/.test(data.upiId)) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: "Please enter a valid UPI ID (e.g. name@okhdfcbank)",
+                path: ["upiId"]
+            });
+        }
+    }
+
+    if (data.paymentMethod === 'CARD') {
+        if (!data.cardholderName || data.cardholderName.trim().length < 2) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: "Cardholder Name must be at least 2 characters",
+                path: ["cardholderName"]
+            });
+        } else if (data.cardholderName.trim().length > 80) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: "Name too long",
+                path: ["cardholderName"]
+            });
+        } else if (!/^[A-Za-z\s.'-]+$/.test(data.cardholderName)) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: "Only letters and valid name characters allowed",
+                path: ["cardholderName"]
+            });
+        }
+
+        const cleanCardNumber = data.cardNumber ? data.cardNumber.replace(/\s+/g, '') : '';
+        if (!cleanCardNumber || !/^\d{16}$/.test(cleanCardNumber)) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: "Card number must be exactly 16 digits",
+                path: ["cardNumber"]
+            });
+        }
+
+        const expiryRegex = /^(0[1-9]|1[0-2])\/?([0-9]{2})$/;
+        if (!data.cardExpiry || !expiryRegex.test(data.cardExpiry)) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: "Expiry must be in MM/YY format",
+                path: ["cardExpiry"]
+            });
+        } else {
+            const matches = data.cardExpiry.match(expiryRegex);
+            if (matches) {
+                const month = parseInt(matches[1], 10);
+                const year = parseInt("20" + matches[2], 10);
+                const expiryDate = new Date(year, month - 1, 1);
+                const currentDate = new Date();
+                currentDate.setDate(1);
+                currentDate.setHours(0,0,0,0);
+                if (expiryDate < currentDate) {
+                    ctx.addIssue({
+                        code: z.ZodIssueCode.custom,
+                        message: "Card has expired",
+                        path: ["cardExpiry"]
+                    });
+                }
+            }
+        }
+
+        if (!data.cardCvv || !/^\d{3,4}$/.test(data.cardCvv)) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: "CVV must be 3 or 4 digits",
+                path: ["cardCvv"]
+            });
+        }
+    }
+});
 
 const CheckoutPage = () => {
     const router = useRouter();
@@ -35,28 +213,50 @@ const CheckoutPage = () => {
     const [selectedAddress, setSelectedAddress] = useState<any>(null);
     const [availableCoupons, setAvailableCoupons] = useState<any[]>([]);
     const [showCouponList, setShowCouponList] = useState(false);
-    const [paymentMethod, setPaymentMethod] = useState('UPI');
     const [checkoutMode, setCheckoutMode] = useState('guest');
-    
-    const [formData, setFormData] = useState({
-        fullName: '',
-        mobileNumber: '',
-        email: '',
-        address: '',
-        address2: '',
-        city: '',
-        state: '',
-        pincode: '',
-        saveAddress: false,
-        orderNotes: '',
-        addressType: 'home'
+
+    // React Hook Form Integration
+    const { register, handleSubmit, getValues, setValue, watch, formState } = useForm({
+        resolver: zodResolver(checkoutSchema),
+        mode: 'onChange',
+        defaultValues: {
+            hasSavedAddress: false,
+            fullName: '',
+            mobileNumber: '',
+            email: '',
+            address: '',
+            address2: '',
+            city: '',
+            state: '',
+            pincode: '',
+            saveAddress: false,
+            orderNotes: '',
+            addressType: 'home',
+            paymentMethod: 'UPI' as const,
+            upiSelection: 'stored',
+            upiId: '',
+            cardNumber: '',
+            cardExpiry: '',
+            cardCvv: '',
+            cardholderName: ''
+        }
     });
+
+    const { errors, isValid } = formState;
+    const paymentMethod = watch('paymentMethod');
+    const stateValue = watch('state');
+    const upiSelection = watch('upiSelection');
+
+    // Sync saved address state
+    useEffect(() => {
+        setValue('hasSavedAddress', !!selectedAddress);
+    }, [selectedAddress, setValue]);
 
     useEffect(() => {
         if (isAuthenticated) {
             fetchAddresses();
         }
-        fetchCart(selectedAddress?.state || formData.state);
+        fetchCart(selectedAddress?.state || stateValue);
     }, [isAuthenticated, fetchAddresses, fetchCart]);
 
     // Automatically select default address if available
@@ -88,20 +288,11 @@ const CheckoutPage = () => {
 
     // Fetch Cart with State when state changes
     useEffect(() => {
-        const state = selectedAddress ? selectedAddress.state : formData.state;
+        const state = selectedAddress ? selectedAddress.state : stateValue;
         if (state) {
             fetchCart(state);
         }
-    }, [formData.state, selectedAddress, fetchCart]);
-
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-        const { name, value, type } = e.target;
-        const checked = (e.target as HTMLInputElement).checked;
-        setFormData(prev => ({
-            ...prev,
-            [name]: type === 'checkbox' ? checked : value
-        }));
-    };
+    }, [stateValue, selectedAddress, fetchCart]);
 
     const applyCoupon = async () => {
         if (!couponCode) return;
@@ -122,59 +313,57 @@ const CheckoutPage = () => {
         if (selectedAddress && !showAddressList) {
             return selectedAddress;
         }
+        const values = getValues();
         return {
-            full_name: formData.fullName,
-            phone: formData.mobileNumber,
-            address_line1: formData.address,
-            address_line2: formData.address2,
-            city: formData.city,
-            state: formData.state,
-            postal_code: formData.pincode
+            full_name: values.fullName,
+            phone: values.mobileNumber,
+            address_line1: values.address,
+            address_line2: values.address2,
+            city: values.city,
+            state: values.state,
+            postal_code: values.pincode
         };
     };
 
-    const handlePayNow = async (e?: React.MouseEvent) => {
-        if (e) e.preventDefault();
+    const onSubmit = async (data: any) => {
+        // Sanitize string inputs to prevent XSS / Script Injection
+        const sanitizeInput = (val: string) => {
+            if (!val) return '';
+            return val
+                .trim()
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#x27;')
+                .replace(/\//g, '&#x2F;');
+        };
 
-        const deliveryAddress = getDeliveryAddress();
-
-        // Prepare Payload
-        const isRazorpay = ['UPI', 'CARD', 'NETBANKING'].includes(paymentMethod);
+        const isRazorpay = ['UPI', 'CARD', 'NETBANKING'].includes(data.paymentMethod);
         const payload: any = {
             payment_method: isRazorpay ? 'razorpay' : 'cod',
             coupon_code: isCouponApplied ? couponCode : null,
-            order_notes: formData.orderNotes
+            order_notes: data.orderNotes ? sanitizeInput(data.orderNotes) : ""
         };
 
         if (selectedAddress && !showAddressList) {
             payload.address_id = selectedAddress.address_id;
         } else {
-            // Validate form data for new address
-            const requiredFields = isAuthenticated 
-                ? ['fullName', 'mobileNumber', 'email', 'address', 'city', 'state', 'pincode']
-                : ['fullName', 'mobileNumber', 'address', 'city', 'state', 'pincode'];
-            const missingFields = requiredFields.filter(field => !formData[field as keyof typeof formData]);
-
-            if (missingFields.length > 0) {
-                toast.error('Please fill in all required delivery address fields.');
-                return;
-            }
-
             payload.address = {
-                full_name: formData.fullName,
-                phone: formData.mobileNumber,
-                email: formData.email,
-                address_line1: formData.address,
-                address_line2: formData.address2 || "",
-                city: formData.city,
-                state: formData.state,
-                postal_code: formData.pincode,
+                full_name: sanitizeInput(data.fullName || ""),
+                phone: sanitizeInput(data.mobileNumber || ""),
+                email: sanitizeInput(data.email || ""),
+                address_line1: sanitizeInput(data.address || ""),
+                address_line2: data.address2 ? sanitizeInput(data.address2) : "",
+                city: sanitizeInput(data.city || ""),
+                state: sanitizeInput(data.state || ""),
+                postal_code: sanitizeInput(data.pincode || ""),
                 country: 'India'
             };
 
             // Option to save address for authenticated users
-            if (formData.saveAddress && isAuthenticated) {
-                const result = await addAddress({ ...payload.address, address_type: formData.addressType });
+            if (data.saveAddress && isAuthenticated) {
+                const result = await addAddress({ ...payload.address, address_type: data.addressType });
                 if (result.success) {
                     payload.address_id = result.data.address_id;
                     delete payload.address;
@@ -192,6 +381,17 @@ const CheckoutPage = () => {
                 toast.error('Failed to place order: ' + result.message);
             }
         }
+    };
+
+    const handlePayNow = (e: React.MouseEvent) => {
+        e.preventDefault();
+        handleSubmit(onSubmit)();
+    };
+
+    // Helper to conditionally render responsive checkmarks next to labels or in input boxes
+    const showSuccessTick = (fieldName: keyof typeof errors) => {
+        const val = watch(fieldName as any);
+        return val && val.toString().trim().length > 0 && !errors[fieldName];
     };
 
     const handleSelectSavedAddress = (addr: any) => {
@@ -305,32 +505,35 @@ const CheckoutPage = () => {
                                     </div>
                                 </div>
                             ) : (
-                                <form className="address-form">
+                                <form className="address-form" onSubmit={(e) => e.preventDefault()}>
                                     <div className="row mb-4">
                                         <div className="col-md-6 mb-3 mb-md-0">
                                             <div className="form-input-group">
                                                 <input
                                                     type="text"
-                                                    name="fullName"
                                                     placeholder="Full Name"
-                                                    className="custom-input"
-                                                    value={formData.fullName}
-                                                    onChange={handleInputChange}
-                                                    required
+                                                    className={`custom-input ${errors.fullName ? 'is-invalid' : ''}`}
+                                                    aria-invalid={errors.fullName ? "true" : "false"}
+                                                    {...register('fullName')}
                                                 />
+                                                {errors.fullName && <span className="error-message">{errors.fullName.message}</span>}
+                                                {showSuccessTick('fullName') && <i className="bi bi-check-circle-fill input-success-tick"></i>}
                                             </div>
                                         </div>
                                         <div className="col-md-6">
                                             <div className="form-input-group">
                                                 <input
                                                     type="text"
-                                                    name="mobileNumber"
                                                     placeholder="Mobile Number"
-                                                    className="custom-input"
-                                                    value={formData.mobileNumber}
-                                                    onChange={handleInputChange}
-                                                    required
+                                                    className={`custom-input ${errors.mobileNumber ? 'is-invalid' : ''}`}
+                                                    aria-invalid={errors.mobileNumber ? "true" : "false"}
+                                                    onInput={(e) => {
+                                                        e.currentTarget.value = e.currentTarget.value.replace(/\D/g, '').substring(0, 10);
+                                                    }}
+                                                    {...register('mobileNumber')}
                                                 />
+                                                {errors.mobileNumber && <span className="error-message">{errors.mobileNumber.message}</span>}
+                                                {showSuccessTick('mobileNumber') && <i className="bi bi-check-circle-fill input-success-tick"></i>}
                                             </div>
                                         </div>
                                     </div>
@@ -340,13 +543,13 @@ const CheckoutPage = () => {
                                             <div className="form-input-group">
                                                 <input
                                                     type="email"
-                                                    name="email"
                                                     placeholder="Email Address (For tracking updates)"
-                                                    className="custom-input full-width"
-                                                    value={formData.email}
-                                                    onChange={handleInputChange}
-                                                    required={isAuthenticated}
+                                                    className={`custom-input full-width ${errors.email ? 'is-invalid' : ''}`}
+                                                    aria-invalid={errors.email ? "true" : "false"}
+                                                    {...register('email')}
                                                 />
+                                                {errors.email && <span className="error-message">{errors.email.message}</span>}
+                                                {showSuccessTick('email') && <i className="bi bi-check-circle-fill input-success-tick"></i>}
                                             </div>
                                         </div>
                                     </div>
@@ -356,13 +559,13 @@ const CheckoutPage = () => {
                                             <div className="form-input-group">
                                                 <input
                                                     type="text"
-                                                    name="address"
                                                     placeholder="Flat, House no., Building, Apartment"
-                                                    className="custom-input full-width"
-                                                    value={formData.address}
-                                                    onChange={handleInputChange}
-                                                    required
+                                                    className={`custom-input full-width ${errors.address ? 'is-invalid' : ''}`}
+                                                    aria-invalid={errors.address ? "true" : "false"}
+                                                    {...register('address')}
                                                 />
+                                                {errors.address && <span className="error-message">{errors.address.message}</span>}
+                                                {showSuccessTick('address') && <i className="bi bi-check-circle-fill input-success-tick"></i>}
                                             </div>
                                         </div>
                                     </div>
@@ -372,12 +575,13 @@ const CheckoutPage = () => {
                                             <div className="form-input-group">
                                                 <input
                                                     type="text"
-                                                    name="address2"
                                                     placeholder="Area, Street, Sector, Village (Optional)"
-                                                    className="custom-input full-width"
-                                                    value={formData.address2}
-                                                    onChange={handleInputChange}
+                                                    className={`custom-input full-width ${errors.address2 ? 'is-invalid' : ''}`}
+                                                    aria-invalid={errors.address2 ? "true" : "false"}
+                                                    {...register('address2')}
                                                 />
+                                                {errors.address2 && <span className="error-message">{errors.address2.message}</span>}
+                                                {showSuccessTick('address2') && <i className="bi bi-check-circle-fill input-success-tick"></i>}
                                             </div>
                                         </div>
                                     </div>
@@ -387,23 +591,21 @@ const CheckoutPage = () => {
                                             <div className="form-input-group">
                                                 <input
                                                     type="text"
-                                                    name="city"
                                                     placeholder="City"
-                                                    className="custom-input"
-                                                    value={formData.city}
-                                                    onChange={handleInputChange}
-                                                    required
+                                                    className={`custom-input ${errors.city ? 'is-invalid' : ''}`}
+                                                    aria-invalid={errors.city ? "true" : "false"}
+                                                    {...register('city')}
                                                 />
+                                                {errors.city && <span className="error-message">{errors.city.message}</span>}
+                                                {showSuccessTick('city') && <i className="bi bi-check-circle-fill input-success-tick"></i>}
                                             </div>
                                         </div>
                                         <div className="col-md-3 mb-3 mb-md-0">
                                             <div className="form-input-group select-wrapper">
                                                 <select
-                                                    name="state"
-                                                    className="custom-input select-input"
-                                                    value={formData.state}
-                                                    onChange={handleInputChange}
-                                                    required
+                                                    className={`custom-input select-input ${errors.state ? 'is-invalid' : ''}`}
+                                                    aria-invalid={errors.state ? "true" : "false"}
+                                                    {...register('state')}
                                                 >
                                                     <option value="">State</option>
                                                     <option value="Tamil Nadu">Tamil Nadu</option>
@@ -413,19 +615,24 @@ const CheckoutPage = () => {
                                                     <option value="Kerala">Kerala</option>
                                                     <option value="Maharashtra">Maharashtra</option>
                                                 </select>
+                                                {errors.state && <span className="error-message">{errors.state.message}</span>}
+                                                {showSuccessTick('state') && <i className="bi bi-check-circle-fill input-success-tick"></i>}
                                             </div>
                                         </div>
                                         <div className="col-md-3">
                                             <div className="form-input-group">
                                                 <input
                                                     type="text"
-                                                    name="pincode"
                                                     placeholder="Pincode"
-                                                    className="custom-input"
-                                                    value={formData.pincode}
-                                                    onChange={handleInputChange}
-                                                    required
+                                                    className={`custom-input ${errors.pincode ? 'is-invalid' : ''}`}
+                                                    aria-invalid={errors.pincode ? "true" : "false"}
+                                                    onInput={(e) => {
+                                                        e.currentTarget.value = e.currentTarget.value.replace(/\D/g, '').substring(0, 6);
+                                                    }}
+                                                    {...register('pincode')}
                                                 />
+                                                {errors.pincode && <span className="error-message">{errors.pincode.message}</span>}
+                                                {showSuccessTick('pincode') && <i className="bi bi-check-circle-fill input-success-tick"></i>}
                                             </div>
                                         </div>
                                     </div>
@@ -434,10 +641,8 @@ const CheckoutPage = () => {
                                         <div className="col-md-6">
                                             <div className="form-input-group select-wrapper">
                                                 <select
-                                                    name="addressType"
                                                     className="custom-input select-input"
-                                                    onChange={handleInputChange}
-                                                    value={formData.addressType}
+                                                    {...register('addressType')}
                                                 >
                                                     <option value="home">Home (7 AM - 9 PM delivery)</option>
                                                     <option value="office">Office (10 AM - 6 PM delivery)</option>
@@ -451,10 +656,8 @@ const CheckoutPage = () => {
                                             <input
                                                 type="checkbox"
                                                 id="saveAddress"
-                                                name="saveAddress"
                                                 className="custom-checkbox"
-                                                checked={formData.saveAddress}
-                                                onChange={handleInputChange}
+                                                {...register('saveAddress')}
                                             />
                                             <label htmlFor="saveAddress" className="checkbox-label ms-2">
                                                 Save this address for faster checkouts
@@ -482,7 +685,7 @@ const CheckoutPage = () => {
                                 {/* UPI Option */}
                                 <div
                                     className={`payment-item upi-item ${paymentMethod === 'UPI' ? 'active-payment' : ''} mb-3`}
-                                    onClick={() => setPaymentMethod('UPI')}
+                                    onClick={() => setValue('paymentMethod', 'UPI', { shouldValidate: true })}
                                     style={{ cursor: 'pointer' }}
                                 >
                                     <div className="d-flex justify-content-between align-items-center">
@@ -497,12 +700,37 @@ const CheckoutPage = () => {
                                         </div>
                                     </div>
                                     {paymentMethod === 'UPI' && (
-                                        <div className="payment-details ms-5 mt-2">
+                                        <div className="payment-details ms-5 mt-2" onClick={(e) => e.stopPropagation()}>
                                             <p className="payment-desc mb-3">Pay directly from your bank account using UPI apps.</p>
-                                            <div className="d-flex gap-3">
-                                                <button className="btn-payment-action">USE STORED ID</button>
-                                                <button className="btn-payment-action secondary">NEW UPI ID</button>
+                                            <div className="d-flex gap-3 mb-3">
+                                                <button
+                                                    type="button"
+                                                    className={`btn-payment-action ${upiSelection === 'stored' ? 'active' : ''}`}
+                                                    onClick={() => setValue('upiSelection', 'stored', { shouldValidate: true })}
+                                                >
+                                                    USE STORED ID
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    className={`btn-payment-action secondary ${upiSelection === 'new' ? 'active' : ''}`}
+                                                    onClick={() => setValue('upiSelection', 'new', { shouldValidate: true })}
+                                                >
+                                                    NEW UPI ID
+                                                </button>
                                             </div>
+                                            {upiSelection === 'new' && (
+                                                <div className="form-input-group mb-3">
+                                                    <input
+                                                        type="text"
+                                                        placeholder="Enter UPI ID (e.g. username@bank)"
+                                                        className={`custom-input full-width ${errors.upiId ? 'is-invalid' : ''}`}
+                                                        aria-invalid={errors.upiId ? "true" : "false"}
+                                                        {...register('upiId')}
+                                                    />
+                                                    {errors.upiId && <span className="error-message">{errors.upiId.message}</span>}
+                                                    {showSuccessTick('upiId') && <i className="bi bi-check-circle-fill input-success-tick"></i>}
+                                                </div>
+                                            )}
                                         </div>
                                     )}
                                 </div>
@@ -510,7 +738,7 @@ const CheckoutPage = () => {
                                 {/* Card Option */}
                                 <div
                                     className={`payment-item card-item ${paymentMethod === 'CARD' ? 'active-payment' : ''} mb-3`}
-                                    onClick={() => setPaymentMethod('CARD')}
+                                    onClick={() => setValue('paymentMethod', 'CARD', { shouldValidate: true })}
                                     style={{ cursor: 'pointer' }}
                                 >
                                     <div className="d-flex align-items-center">
@@ -520,16 +748,72 @@ const CheckoutPage = () => {
                                         <span className={`payment-name ${paymentMethod !== 'CARD' ? 'inactive' : ''}`}>Credit / Debit Card</span>
                                     </div>
                                     {paymentMethod === 'CARD' && (
-                                        <div className="card-form ms-5 mt-3">
+                                        <div className="card-form ms-5 mt-3" onClick={(e) => e.stopPropagation()}>
                                             <div className="form-input-group mb-3">
-                                                <input type="text" placeholder="Card Number" className="custom-input full-width" />
+                                                <input
+                                                    type="text"
+                                                    placeholder="Cardholder Name"
+                                                    className={`custom-input full-width ${errors.cardholderName ? 'is-invalid' : ''}`}
+                                                    aria-invalid={errors.cardholderName ? "true" : "false"}
+                                                    {...register('cardholderName')}
+                                                />
+                                                {errors.cardholderName && <span className="error-message">{errors.cardholderName.message}</span>}
+                                                {showSuccessTick('cardholderName') && <i className="bi bi-check-circle-fill input-success-tick"></i>}
+                                            </div>
+                                            <div className="form-input-group mb-3">
+                                                <input
+                                                    type="text"
+                                                    placeholder="Card Number"
+                                                    className={`custom-input full-width ${errors.cardNumber ? 'is-invalid' : ''}`}
+                                                    aria-invalid={errors.cardNumber ? "true" : "false"}
+                                                    onInput={(e) => {
+                                                        let v = e.currentTarget.value.replace(/\D/g, '').substring(0, 16);
+                                                        const matches = v.match(/\d{1,4}/g);
+                                                        e.currentTarget.value = matches ? matches.join(' ') : '';
+                                                    }}
+                                                    {...register('cardNumber')}
+                                                />
+                                                {errors.cardNumber && <span className="error-message">{errors.cardNumber.message}</span>}
+                                                {showSuccessTick('cardNumber') && <i className="bi bi-check-circle-fill input-success-tick"></i>}
                                             </div>
                                             <div className="row">
                                                 <div className="col-md-6 mb-3 mb-md-0">
-                                                    <input type="text" placeholder="Expiry (MM/YY)" className="custom-input full-width" />
+                                                    <div className="form-input-group">
+                                                        <input
+                                                            type="text"
+                                                            placeholder="Expiry (MM/YY)"
+                                                            className={`custom-input full-width ${errors.cardExpiry ? 'is-invalid' : ''}`}
+                                                            aria-invalid={errors.cardExpiry ? "true" : "false"}
+                                                            onInput={(e) => {
+                                                                let v = e.currentTarget.value.replace(/\D/g, '');
+                                                                if (v.length > 4) v = v.substring(0, 4);
+                                                                if (v.length > 2) {
+                                                                    e.currentTarget.value = v.substring(0, 2) + '/' + v.substring(2);
+                                                                } else {
+                                                                    e.currentTarget.value = v;
+                                                                }
+                                                            }}
+                                                            {...register('cardExpiry')}
+                                                        />
+                                                        {errors.cardExpiry && <span className="error-message">{errors.cardExpiry.message}</span>}
+                                                        {showSuccessTick('cardExpiry') && <i className="bi bi-check-circle-fill input-success-tick"></i>}
+                                                    </div>
                                                 </div>
                                                 <div className="col-md-6">
-                                                    <input type="text" placeholder="CVV" className="custom-input full-width" />
+                                                    <div className="form-input-group">
+                                                        <input
+                                                            type="text"
+                                                            placeholder="CVV"
+                                                            className={`custom-input full-width ${errors.cardCvv ? 'is-invalid' : ''}`}
+                                                            aria-invalid={errors.cardCvv ? "true" : "false"}
+                                                            onInput={(e) => {
+                                                                e.currentTarget.value = e.currentTarget.value.replace(/\D/g, '').substring(0, 4);
+                                                            }}
+                                                            {...register('cardCvv')}
+                                                        />
+                                                        {errors.cardCvv && <span className="error-message">{errors.cardCvv.message}</span>}
+                                                        {showSuccessTick('cardCvv') && <i className="bi bi-check-circle-fill input-success-tick"></i>}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -540,7 +824,7 @@ const CheckoutPage = () => {
                                 <div className="payment-row mb-4">
                                     <div
                                         className={`payment-item half-width ${paymentMethod === 'NETBANKING' ? 'active-payment' : ''}`}
-                                        onClick={() => setPaymentMethod('NETBANKING')}
+                                        onClick={() => setValue('paymentMethod', 'NETBANKING', { shouldValidate: true })}
                                         style={{ cursor: 'pointer' }}
                                     >
                                         <div className="d-flex align-items-center">
@@ -552,7 +836,7 @@ const CheckoutPage = () => {
                                     </div>
                                     <div
                                         className={`payment-item half-width ${paymentMethod === 'COD' ? 'active-payment' : ''}`}
-                                        onClick={() => setPaymentMethod('COD')}
+                                        onClick={() => setValue('paymentMethod', 'COD', { shouldValidate: true })}
                                         style={{ cursor: 'pointer' }}
                                     >
                                         <div className="d-flex align-items-center">
@@ -569,7 +853,7 @@ const CheckoutPage = () => {
                         <button
                             className="btn-pay-now w-100 mb-5"
                             onClick={handlePayNow}
-                            disabled={orderLoading || cartItems.length === 0}
+                            disabled={orderLoading || cartItems.length === 0 || !isValid}
                         >
                             {orderLoading ? 'PLACING ORDER...' : 'PLACE ORDER'}
                         </button>
@@ -627,16 +911,7 @@ const CheckoutPage = () => {
                                 </div>
                                 <p className="coupon-hint mt-2">Apply "HERITAGE10" for 10% off on your first silk weave.</p>
                             </div>
-                            <div className="col-md-6">
-                                <h3 className="sub-section-title">Order Notes</h3>
-                                <textarea
-                                    name="orderNotes"
-                                    className="order-notes-textarea mt-2 p-2"
-                                    placeholder="Delivery instructions (optional)..."
-                                    value={formData.orderNotes}
-                                    onChange={handleInputChange}
-                                ></textarea>
-                            </div>
+                      
                         </div>
                     </div>
 
@@ -729,11 +1004,11 @@ const CheckoutPage = () => {
                                 </div>
 
                                 {/* Additional UX */}
-                                {(formData.state || selectedAddress?.state) && (
+                                {(stateValue || selectedAddress?.state) && (
                                     <div className="delivery-info-mini mt-3 p-2 rounded bg-light border">
                                         <p className="mb-0 small text-muted">
                                             <i className="bi bi-truck me-2"></i>
-                                            Delivery to <strong>{selectedAddress ? selectedAddress.state : formData.state}</strong>
+                                            Delivery to <strong>{selectedAddress ? selectedAddress.state : stateValue}</strong>
                                         </p>
                                         <p className="mb-0 small text-muted">
                                             Estimated Delivery: <strong>{cartSummary.estimated_days || '3–5 Days'}</strong>
@@ -745,7 +1020,7 @@ const CheckoutPage = () => {
                             <button
                                 className="btn-pay-now w-100 mt-4"
                                 onClick={handlePayNow}
-                                disabled={orderLoading || cartItems.length === 0}
+                                disabled={orderLoading || cartItems.length === 0 || !isValid}
                             >
                                 {orderLoading ? 'PLACING ORDER...' : 'PLACE ORDER'}
                             </button>
