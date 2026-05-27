@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { API_BASE } from '@/config/api';
 import authService from '../services/authService';
+import { useCartStore } from './cartStore';
 
 interface AuthState {
     user: any | null;
@@ -35,6 +36,12 @@ export const useAuthStore = create<AuthState>()(
                     const response = await authService.login(credentials);
                     if (response.success) {
                         get().setAuth(response.data.user, response.data.accessToken);
+                        // Merge guest cart into user cart after login
+                        try {
+                            await useCartStore.getState().mergeCart();
+                        } catch (mergeErr) {
+                            console.warn('Cart merge after login failed:', mergeErr);
+                        }
                         return { success: true };
                     }
                     return { success: false, message: response.message };
@@ -48,6 +55,12 @@ export const useAuthStore = create<AuthState>()(
                     const response = await authService.signup(userData);
                     if (response.success) {
                         get().setAuth(response.data.user, response.data.accessToken);
+                        // Merge guest cart into user cart after signup
+                        try {
+                            await useCartStore.getState().mergeCart();
+                        } catch (mergeErr) {
+                            console.warn('Cart merge after signup failed:', mergeErr);
+                        }
                         return { success: true };
                     }
                     return { success: false, message: response.message };

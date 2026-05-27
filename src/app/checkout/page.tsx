@@ -200,7 +200,7 @@ const checkoutSchema = z.object({
 const CheckoutPage = () => {
     const router = useRouter();
     const { addresses, fetchAddresses, addAddress, loading: addressLoading } = useAddressStore();
-    const { cart, fetchCart, applyCoupon: applyCouponAPI, fetchActiveCoupons } = useCartStore();
+    const { cart, fetchCart, applyCoupon: applyCouponAPI, fetchActiveCoupons, mergeCart } = useCartStore();
     const { placeOrder, loading: orderLoading } = useOrderStore();
     const { isAuthenticated, user, token } = useAuthStore();
 
@@ -253,11 +253,16 @@ const CheckoutPage = () => {
     }, [selectedAddress, setValue]);
 
     useEffect(() => {
-        if (isAuthenticated) {
-            fetchAddresses();
-        }
-        fetchCart(selectedAddress?.state || stateValue);
-    }, [isAuthenticated, fetchAddresses, fetchCart]);
+        const initCart = async () => {
+            if (isAuthenticated) {
+                fetchAddresses();
+                // Ensure guest cart is merged into user cart
+                await mergeCart();
+            }
+            fetchCart(selectedAddress?.state || stateValue);
+        };
+        initCart();
+    }, [isAuthenticated]);
 
     // Automatically select default address if available
     useEffect(() => {
