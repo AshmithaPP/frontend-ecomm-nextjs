@@ -61,7 +61,7 @@ axiosInstance.interceptors.response.use(
             } catch (refreshError) {
                 // If refresh fails, logout and redirect to login
                 useAuthStore.getState().logout();
-                if (typeof window !== 'undefined') {
+                if (typeof window !== 'undefined' && window.location.pathname !== '/login') {
                     window.location.href = '/login';
                 }
                 return Promise.reject(refreshError);
