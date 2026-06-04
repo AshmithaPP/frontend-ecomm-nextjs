@@ -1,7 +1,7 @@
 /* customerFavorites.css */
 
 .customer-favorites-section {
-    padding: 20px 0;
+    padding: 18px 0;
     background-color: #ffffff;
     position: relative;
 }
@@ -10,7 +10,7 @@
     max-width: 1440px !important;
     padding-left: 24px;
     padding-right: 24px;
-    margin: 0 auto;
+    margin: 20px auto;
 }
 
 .favorites-header {
@@ -322,8 +322,12 @@
 
 /* Mobile Responsiveness adjustments */
 @media (max-width: 768px) {
+    .customer-favorites-section {
+        padding: 8px 0;
+    }
+
     .favorites-title {
-        font-size: 26px;
+        font-size: 24px;
     }
     
     .favorite-video-card, .skeleton-video-card {

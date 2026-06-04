@@ -2,7 +2,7 @@
 
 .testimonials-section {
     background-color: #ffffff; /* Light grey bg */
-    padding: 40px 0; /* Padding top/bottom */
+    padding: 24px 0; /* Padding top/bottom */
     font-family: 'Jost', sans-serif;
     overflow: hidden; /* Hide overflow from cards */
     position: relative;
@@ -282,15 +282,25 @@
     }
 }
 
+@media (max-width: 768px) {
+    .testimonials-section {
+        padding: 18px 0;
+    }
+    .testimonials-section-title {
+        font-size: 24px;
+        margin-bottom: 30px;
+    }
+}
+
 @media (max-width: 480px) {
     .testimonials-section {
-        padding: 50px 0;
+        padding: 18px 0;
     }
 
     .testimonials-section-title {
-        font-size: 22px;
-        margin-bottom: 30px;
-        padding: 0 16px;
+        font-size: 24px;
+        margin-bottom: 24px;
+        padding: 0 18px;
     }
 
     .testimonial-card {

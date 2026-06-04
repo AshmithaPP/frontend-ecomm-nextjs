@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600&display=swap');
 
 .shop-by-price-section {
-    padding: 60px 0;
+    padding:36px 0;
     background-color: #ffffff;
     /* Light grey section */
     width: 100%;
@@ -156,5 +156,15 @@
     .price-card.small .price-card-content {
         font-size: 20px;
         /* Scaling down text for mobile */
+    }
+}
+
+@media (max-width: 768px) {
+    .shop-by-price-section {
+        padding: 16px 0;
+    }
+    .shop-by-price-section .title {
+        font-size: 24px;
+        margin-bottom: 24px;
     }
 }

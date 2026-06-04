@@ -2,7 +2,7 @@
 
 .trending-picks-section {
   background-color: #ffffff;
-  padding: 30px 0;
+  padding: 20px 0;
 }
 
 /* Title Styling */
@@ -170,7 +170,111 @@
     height: 250px;
   }
 
+  .trending-picks-section {
+    padding: 12px 0;
+  }
+
   .trending-title {
-    font-size: 28px;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+}
+/* --- LAYOUT DISPLAY CONTROLS --- */
+.desktop-only {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.mobile-only {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none !important;
+  }
+  
+  .mobile-only {
+    display: block !important;
+  }
+}
+
+/* --- MOBILE CAROUSEL STYLING --- */
+.trending-mobile-carousel {
+  position: relative;
+  width: 100%;
+  padding-bottom: 10px;
+}
+
+.mobile-carousel-track {
+  position: relative;
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch; /* Momentum scrolling */
+  padding: 10px 24px 20px 24px;
+  scrollbar-width: none; /* Hide scrollbars for Firefox */
+}
+
+.mobile-carousel-track::-webkit-scrollbar {
+  display: none; /* Hide scrollbars for Chrome/Safari/Edge */
+}
+
+.mobile-carousel-slide {
+  flex: 0 0 82%; /* Show 82% of slide, rest shows next slide */
+  height: 340px;
+  scroll-snap-align: center;
+  position: relative;
+  will-change: transform, opacity;
+}
+
+.mobile-carousel-slide .trending-card {
+  height: 100%;
+  width: 100%;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08); /* Premium subtle shadow */
+}
+
+/* --- CAROUSEL PILL DOTS --- */
+.mobile-carousel-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.carousel-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.4s ease, transform 0.4s ease;
+}
+
+.carousel-dot:hover {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.carousel-dot.active {
+  width: 24px; /* Premium horizontal stretch pill shape */
+  background-color: #000000;
+  transform: scale(1);
+}
+
+/* Accessibility: Respect user motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .mobile-carousel-slide,
+  .trending-card,
+  .card-image {
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
   }
 }

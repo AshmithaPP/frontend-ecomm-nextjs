@@ -1,8 +1,8 @@
 /* Blog Section Layout */
 .blog-section {
   background-color: #ffffff; /* Light grey background */
-  padding-top: 20px;
-  padding-bottom: 60px;
+  padding-top: 22px;
+  padding-bottom: 28px;
 }
 
 /* Section Container */
@@ -147,8 +147,12 @@
     height: 280px; /* Resize height for tablets/mobile views */
   }
   .blog-section {
-    padding-top: 10px;
-    padding-bottom: 40px;
+    padding-top: 8px;
+    padding-bottom: 20px;
+  }
+  .blog-section-title {
+    font-size: 24px;
+    margin-bottom: 20px;
   }
 }
 

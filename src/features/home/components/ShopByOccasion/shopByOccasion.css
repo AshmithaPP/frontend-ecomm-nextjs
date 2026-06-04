@@ -1,8 +1,8 @@
 /* Shop By Occasion Section */
 .shop-by-occasion-section {
   background-color: #ffffff; /* Light grey background */
-  padding-top: 50px;
-  padding-bottom: 50px;
+  padding-top: 24px;
+  padding-bottom: 24px;
 }
 
 /* Section Heading */
@@ -63,6 +63,14 @@
 
 /* Responsive adjustments for sizes if needed, but spec gives 205x205 */
 @media (max-width: 768px) {
+  .shop-by-occasion-section {
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
+  .shop-by-occasion-section .section-heading {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
   .circle-image-wrapper {
     width: 160px; /* Size approx 140px-160px for tablet/mobile to fit */
     height: 160px;
@@ -79,9 +87,6 @@
   }
   .circle-card-item {
     width: 140px;
-  }
-  .shop-by-occasion-section .section-heading {
-    font-size: 28px;
   }
 }
 

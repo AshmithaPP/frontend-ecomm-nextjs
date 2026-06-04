@@ -99,7 +99,12 @@ const ShopByCollections = ({
 
     const handleScroll = (direction: 'left' | 'right') => {
         if (!scrollRef.current) return;
-        const scrollAmount = 320; 
+        
+        // Query the first cardItem element dynamically to compute the exact scroll width
+        const cardEl = scrollRef.current.querySelector('.' + styles.cardItem) as HTMLElement;
+        const cardWidth = cardEl ? cardEl.clientWidth : 320;
+        const gap = 21; // gap between cards is 21px
+        const scrollAmount = cardWidth + gap;
         const offset = direction === 'left' ? -scrollAmount : scrollAmount;
 
         scrollRef.current.scrollBy({

@@ -6,6 +6,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import "./globals.css";
 import { Providers } from "./providers";
 import Layout from "components/layout/Layout";
+import LoadingScreen from "components/ui/LoadingScreen";
 
 const jost = Jost({
     subsets: ["latin"],
@@ -45,9 +46,11 @@ export default function RootLayout({
     <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning className={`${jost.variable} ${manrope.variable} ${notoSerif.variable} ${readexPro.variable}`}>
       <body className={jost.className}>
         <Providers>
+          <LoadingScreen>
             <Layout>
                 {children}
             </Layout>
+          </LoadingScreen>
         </Providers>
         <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
       </body>

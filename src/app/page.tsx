@@ -38,7 +38,7 @@ export default function Home() {
     fetchHomeData();
   }, [fetchHomeData]);
 
-  if (loading) {
+  if (loading && !homeData) {
     return (
       <div style={{ minHeight: '80vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <div className="spinner-border text-primary" role="status">

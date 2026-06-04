@@ -1,8 +1,8 @@
 /* Newsletter Section Layout */
 .newsletter-section {
   background-color: #ffffff; 
-  padding-top: 25px;
-  padding-bottom: 60px;
+  padding-top: 20px;
+  padding-bottom: 28px;
 }
 
 /* Container limits to matches grid max content style */
@@ -29,7 +29,7 @@
 .newsletter-title {
   font-family: 'Jost', sans-serif;
   font-weight: 600;
-  font-size: 34px;
+  font-size: 32px;
   line-height: 100%;
   color: #FFFFFF;
   margin-bottom: 36px; 
@@ -150,6 +150,17 @@
   }
 }
 
+@media (max-width: 768px) {
+  .newsletter-section {
+    padding-top: 12px;
+    padding-bottom: 16px;
+  }
+  .newsletter-title {
+    font-size: 24px;
+    margin-bottom: 24px;
+  }
+}
+
 @media (max-width: 575px) {
   .newsletter-form {
     flex-direction: column;
@@ -162,7 +173,7 @@
     padding: 30px 20px;
   }
   .newsletter-title {
-    font-size: 28px;
+    font-size: 24px;
   }
   .newsletter-subtitle {
     font-size: 18px;

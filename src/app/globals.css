@@ -33,7 +33,18 @@ ul {
 }
 
 /* Global Font Utility classes for easy use if needed */
-.font-jost { font-family: var(--font-jost); }
-.font-manrope { font-family: var(--font-manrope); }
-.font-noto { font-family: var(--font-noto-serif); }
-.font-readex { font-family: var(--font-readex-pro); }
+.font-jost {
+  font-family: var(--font-jost);
+}
+
+.font-manrope {
+  font-family: var(--font-manrope);
+}
+
+.font-noto {
+  font-family: var(--font-noto-serif);
+}
+
+.font-readex {
+  font-family: var(--font-readex-pro);
+}

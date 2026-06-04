@@ -1,7 +1,7 @@
 /* ShopByCollections.module.css */
 
 .collectionsSection {
-    padding: 1.5rem 1.5rem;
+    padding: 1rem 1.5rem;
     max-width: 1440px;
     margin: 0 auto;
     position: relative;
@@ -40,6 +40,7 @@
 .carouselContainer {
     width: 100%;
     overflow-x: auto;
+    overflow-y: hidden;
     scroll-behavior: smooth;
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -385,5 +386,31 @@
     .productInfo {
         width: 100%;
         max-width: 300px;
+    }
+}
+
+@media (max-width: 768px) {
+    .collectionsSection {
+        padding: 0.5rem 1rem;
+    }
+
+    .title {
+        font-size: 24px;
+    }
+
+    .exploreMoreBtn {
+        width: 170px;
+        height: 48px;
+        font-size: 16px;
+        margin-top: 1rem;
+    }
+
+    .carouselContainer {
+        scroll-snap-type: x mandatory;
+    }
+
+    .cardItem {
+        scroll-snap-align: center;
+        scroll-snap-stop: always;
     }
 }
