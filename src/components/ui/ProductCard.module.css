@@ -16,7 +16,7 @@
     border-radius: 16px;
     overflow: hidden;
     background: #FFFFFF;
-    border: 1px solid #EAEAEA;
+    border:2px solid #ecb147;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
     /* Premium soft outside drop shadow matching mockup */
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);

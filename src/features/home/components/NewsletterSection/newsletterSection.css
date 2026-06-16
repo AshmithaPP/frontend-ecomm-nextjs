@@ -1,8 +1,8 @@
 /* Newsletter Section Layout */
 .newsletter-section {
   background-color: #ffffff; 
-  padding-top: 25px;
-  padding-bottom: 40px;
+  padding-top: 80px;
+  padding-bottom: 80px;
 }
 
 /* Container limits to matches grid max content style */
@@ -153,7 +153,7 @@
 @media (max-width: 768px) {
   .newsletter-section {
     padding-top: 12px;
-    padding-bottom: 16px;
+    padding-bottom: 48px;
   }
   .newsletter-title {
     font-size: 24px;
