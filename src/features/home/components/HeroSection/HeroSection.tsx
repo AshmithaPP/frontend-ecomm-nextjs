@@ -2,7 +2,7 @@ import React from 'react';
 import { resolveMediaUrl } from '@/config/api';
 import Link from 'next/link';
 import heroRight from 'assets/images/silk/heroRight.png';
-import heroBg from 'assets/images/lightgreenbg.jpg';
+import heroBg from 'assets/images/heroforayur.webp';
 import Image from 'next/image';
 import './hero_section.css';
 
