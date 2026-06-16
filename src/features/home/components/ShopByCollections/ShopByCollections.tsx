@@ -24,7 +24,7 @@ interface ShopByCollectionsProps {
 
 const ShopByCollections = ({ 
     title = "Shop by Collections", 
-    subtitle = "Curated selections for every occasion",
+    subtitle = "Curated selections for every healthissues",
     products: initialProducts = [],
     sectionId,
     sectionTitle,

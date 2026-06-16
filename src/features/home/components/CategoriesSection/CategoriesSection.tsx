@@ -50,7 +50,7 @@ const CategoriesSection = ({
     dynamicCategories,
     useCarousel = true,
     title = "Shop by Category",
-    subtitle = "Discover our exquisite collection of silk sarees"
+    subtitle = "Discover our exquisite collection of Naturals"
 }: CategoriesSectionProps) => {
     const router = useRouter();
     const scrollContainerRef = useRef<HTMLDivElement>(null);
