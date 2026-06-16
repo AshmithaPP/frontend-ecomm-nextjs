@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Jost:wght@400;600&display=swap');
 
 .hero-section {
-    background-image: url('/herobg.png');
+    background-image: none;
     background-size: cover;
     background-position: center;
     /* background-repeat: no-repeat; */
@@ -55,7 +55,7 @@
 .hero-btn {
     width: 200px;
     height: 54px;
-    background-color: #A42829;
+    background-color: #135231;
     color: #FFFFFF;
     border-radius: 4px;
     /* Approximated - default rounded */

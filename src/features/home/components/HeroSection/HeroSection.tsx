@@ -2,6 +2,7 @@ import React from 'react';
 import { resolveMediaUrl } from '@/config/api';
 import Link from 'next/link';
 import heroRight from 'assets/images/silk/heroRight.png';
+import heroBg from 'assets/images/lightgreenbg.jpg';
 import Image from 'next/image';
 import './hero_section.css';
 
@@ -33,8 +34,10 @@ const HeroSection = ({ dynamicData }: HeroSectionProps) => {
         ? resolveMediaUrl(displayData.image_url)
         : displayData.image_url;
 
+    const heroBgUrl = typeof heroBg === 'string' ? heroBg : heroBg.src;
+
     return (
-        <section className="hero-section">
+        <section className="hero-section" style={{ backgroundImage: `url(${heroBgUrl})` }}>
             <div className="container h-100">
                 <div className="row h-100">
                     <div className="col-md-6 hero-left">
