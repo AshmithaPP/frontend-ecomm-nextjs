@@ -31,7 +31,7 @@ const TopBar = () => {
     }, []);
 
     const text = announcement ? announcement.text : "Free Shipping Order Above 5000 Rupees in Tamilnadu";
-    const bgColor = announcement?.background_color || '#800020';
+    const bgColor = announcement?.background_color || '#e8a23a';
     const textColor = announcement?.text_color || '#FFFFFF';
 
     return (

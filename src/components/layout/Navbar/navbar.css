@@ -32,7 +32,7 @@
 }
 
 .topbar {
-    background-color: #A42829;
+    background-color:#e8a23a ;
     height: 60px;
     display: flex;
     justify-content: center;
@@ -58,7 +58,7 @@
    Navbar Styles — Desktop First (≥ 1200px)
    ============================================================ */
 .navbar-wrapper {
-    background-color: #FFFFFF;
+    background-color: #135231;
     width: 100%;
     position: relative;
     z-index: 1020;
@@ -117,7 +117,7 @@
     align-items: center;
     justify-content: center;
     text-decoration: none;
-    color: #2C2C2C;
+    color: #FFFFFF;
     font-family: 'Jost', sans-serif;
     font-weight: 400;
     font-size: 16px;
@@ -128,7 +128,7 @@
 }
 
 .nav-link.active {
-    color: #A42829;
+    color: #FFFFFF;
     font-weight: 500;
     /* Matching the bolder look in image */
 }
@@ -147,7 +147,7 @@
 
 .nav-icon {
     font-size: 24px;
-    color: #2C2C2C;
+    color: #FFFFFF;
     cursor: pointer;
     width: 24px;
     height: 24px;
@@ -161,6 +161,7 @@
     width: 100%;
     height: 100%;
     object-fit: contain;
+    filter: brightness(0) invert(1);
 }
 
 .nav-icon:hover {
@@ -176,8 +177,8 @@
     position: absolute;
     top: -5px;
     right: -8px;
-    background-color: #A42829;
-    color: white;
+    background-color: #FFFFFF;
+    color: black;
     font-size: 10px;
     font-weight: bold;
     height: 16px;
@@ -226,7 +227,7 @@
     width: 100%;
     height: 2px;
     /* Thinner lines as per image */
-    background-color: #000000;
+    background-color: #FFFFFF;
     border-radius: 0;
     /* Sharp corners as per image */
     transition: all 0.3s ease;

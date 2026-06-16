@@ -88,7 +88,7 @@
 /* CARD CONTENT (LEFT RED SIDE) */
 .card-content {
     flex: 1;
-    background-color: #A42829; /* Red layout */
+    background-color: #135231; /* Red layout */
     padding: 40px 40px 40px 60px; /* Top Right Bottom Left from description */
     color: #FFFFFF;
     display: flex;
