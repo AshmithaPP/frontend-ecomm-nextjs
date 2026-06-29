@@ -380,3 +380,219 @@
     font-size: 16px; /* Increased from 14px */
     color: #111827;
 }
+
+/* ====================================================
+   MOBILE FILTER BOTTOM BAR & FULLSCREEN MODAL DRAWER
+   ==================================================== */
+
+/* By default, hide mobile structures on desktop layout screens */
+.mobile-filter-sticky-bar,
+.mobile-filter-modal {
+    display: none;
+}
+
+/* Body scroll lock — only locks scroll, never hides body */
+body.no-scroll {
+    overflow: hidden !important;
+}
+
+/* Hide desktop sidebar on small viewports */
+@media (max-width: 992px) {
+    .filter-sidebar {
+        display: none !important;
+    }
+
+    /* Sticky Bottom Action bar for filter/sort */
+    .mobile-filter-sticky-bar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 60px;
+        background-color: #FFFFFF !important;
+        border-top: 1.5px solid #F3F4F6;
+        display: flex !important;
+        align-items: center;
+        justify-content: space-between;
+        z-index: 999;
+        box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .mobile-bar-btn {
+        flex: 1;
+        height: 100%;
+        background: none;
+        border: none;
+        outline: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-family: 'Jost', sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        color: #374151;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+    }
+
+    .mobile-bar-btn:active {
+        background-color: #F9FAFB;
+    }
+
+    .mobile-bar-divider {
+        width: 1.5px;
+        height: 24px;
+        background-color: #E5E7EB;
+    }
+
+    .mobile-bar-btn .active-badge {
+        background-color: #A42829; /* Saree maroon brand color */
+        color: #FFFFFF;
+        font-size: 10px;
+        font-weight: 700;
+        border-radius: 50%;
+        width: 18px;
+        height: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Body lock styling class when filters are active */
+    body.no-scroll {
+        overflow: hidden !important;
+        position: relative !important;
+        height: 100% !important;
+    }
+
+    /* Mobile modal filter structure */
+    .mobile-filter-modal {
+        display: flex !important;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: #FFFFFF !important;
+        z-index: 9999;
+        height: 100vh;
+        width: 100vw;
+    }
+
+    .mobile-filter-modal-header {
+        height: 56px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 16px;
+        border-bottom: 1.5px solid #F3F4F6;
+        background-color: #FFFFFF !important;
+    }
+
+    .mobile-header-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .mobile-back-btn {
+        background: none;
+        border: none;
+        outline: none;
+        padding: 4px;
+        color: #111827;
+        cursor: pointer;
+    }
+
+    .mobile-modal-title {
+        font-family: 'Jost', sans-serif;
+        font-size: 16px;
+        font-weight: 600;
+        color: #111827;
+        margin: 0;
+    }
+
+    .mobile-clear-all {
+        background: none;
+        border: none;
+        outline: none;
+        font-family: 'Jost', sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        color: #A42829; /* Saree brand maroon */
+        cursor: pointer;
+    }
+
+    /* Checklist options styling inside drawer */
+    .mobile-filter-checklist-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    /* Sort By mobile option items list */
+    .mobile-sort-options-list {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .mobile-sort-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 12px;
+        border-bottom: 1px solid #F3F4F6;
+        cursor: pointer;
+        font-family: 'Jost', sans-serif;
+        font-size: 15px;
+        font-weight: 500;
+        color: #374151;
+        transition: background-color 0.2s ease;
+    }
+
+    .mobile-sort-item.active {
+        color: #A42829 !important; /* Brand maroon color */
+        background-color: #FAF0F0 !important; /* Soft maroon brand background */
+    }
+
+    /* Dot to show active Sort Option Selection */
+    .mobile-sort-check-dot {
+        width: 10px;
+        height: 10px;
+        background-color: #A42829 !important; /* Brand Maroon check dot */
+        border-radius: 50%;
+    }
+
+    /* Sticky Modal Drawer Footer CTA button */
+    .mobile-filter-modal-footer {
+        height: 70px;
+        background-color: #FFFFFF !important;
+        border-top: 1.5px solid #F3F4F6;
+        padding: 10px 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .mobile-cta-btn {
+        width: 100%;
+        height: 100%;
+        background-color: #A42829 !important; /* Brand Maroon CTA button */
+        color: #FFFFFF !important;
+        font-family: 'Jost', sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: opacity 0.2s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .mobile-cta-btn:active {
+        opacity: 0.9;
+    }
+}

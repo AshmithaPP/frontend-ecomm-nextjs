@@ -39,3 +39,19 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+
+# Future commands
+
+# Push to the original repository:
+
+# git push origin main
+
+# Push to the new repository:
+
+# git push newrepo main
+
+# Push to both:
+
+# git push origin main
+# git push newrepo main

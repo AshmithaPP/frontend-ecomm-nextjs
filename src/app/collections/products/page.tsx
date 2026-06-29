@@ -170,7 +170,7 @@ const ProductsContent = () => {
                     </div>
 
                     {/* Product Grid */}
-                    <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
+                    <div className="row row-cols-2 row-cols-sm-2 row-cols-lg-3 g-2 g-md-4">
                         {loading ? (
                             [...Array(6)].map((_, i) => (
                                 <div className="col" key={i}>
@@ -185,6 +185,7 @@ const ProductsContent = () => {
                                         className="catalog-card-wrapper"
                                         cardClassName="catalog-card-body"
                                         imageClassName="catalog-card-image"
+                                        variant="catalog"
                                     />
                                 </div>
                             ))

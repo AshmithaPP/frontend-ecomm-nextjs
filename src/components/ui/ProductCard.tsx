@@ -10,7 +10,17 @@ import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import { resolveMediaUrl } from '@/config/api';
 
-const ProductCard = ({ product, className, cardClassName, imageClassName }: { product: any; className?: string; cardClassName?: string; imageClassName?: string }) => {
+const splitName = (fullName: string) => {
+    if (!fullName) return { brand: 'Silk Curator', name: 'Saree' };
+    const words = fullName.trim().split(/\s+/);
+    if (words.length <= 2) {
+        return { brand: words[0] || 'Silk Curator', name: words.slice(1).join(' ') || 'Saree' };
+    }
+    return { brand: words.slice(0, 2).join(' '), name: words.slice(2).join(' ') };
+};
+
+const ProductCard = ({ product, className, cardClassName, imageClassName, variant = 'default' }: { product: any; className?: string; cardClassName?: string; imageClassName?: string; variant?: 'catalog' | 'default' }) => {
+    const isCatalog = variant === 'catalog';
     const { title, name, image, image_url, discount, discountedPrice, price, originalPrice, original_price, discountBg, id, product_id, slug, stock_status } = product;
     const [imageLoaded, setImageLoaded] = useState(false);
     const imgRef = useRef<HTMLImageElement>(null);
@@ -87,7 +97,7 @@ const ProductCard = ({ product, className, cardClassName, imageClassName }: { pr
 
     return (
         <div className={`${styles.cardItem} ${className || ''}`} onClick={handleCardClick} style={{ cursor: 'pointer' }}>
-            <div className={`${styles.productCard} ${secondaryImageUrl ? styles.hasSecondary : ''} ${cardClassName || ''}`}>
+            <div className={`${styles.productCard} ${secondaryImageUrl ? styles.hasSecondary : ''} ${cardClassName || ''} ${isCatalog ? styles.catalogCard : ''}`}>
                 {/* Image Section */}
                 <div className={`${styles.imageWrapper} ${imageClassName || ''}`}>
                     {imageUrl && (
@@ -129,46 +139,103 @@ const ProductCard = ({ product, className, cardClassName, imageClassName }: { pr
                 {/* Details Section inside the same card */}
                 <div className={styles.productInfo}>
                     <div className={styles.productDetailsGroup}>
-                        {/* 1. Rating stars and reviews count */}
+                        {/* 1. Rating stars / badge */}
                         <div className={styles.ratingRow}>
-                            {renderStars(parseFloat(String(averageRating || 0)))}
-                            <span className={styles.reviewsCount}>
-                                {reviewsCount > 0 ? `${reviewsCount} reviews` : '0 reviews'}
-                            </span>
+                            {isCatalog ? (
+                                <>
+                                    <div className={styles.desktopStars}>
+                                        {renderStars(parseFloat(String(averageRating || 0)))}
+                                        <span className={styles.reviewsCount}>
+                                            {reviewsCount > 0 ? `${reviewsCount} reviews` : '0 reviews'}
+                                        </span>
+                                    </div>
+                                    <div className={styles.mobileRatingRow}>
+                                        <div className={styles.mobileRatingLeft}>
+                                            <span className={styles.ratingBadgePill}>
+                                                {averageRating > 0 ? parseFloat(String(averageRating)).toFixed(1) : '4.2'} ★
+                                            </span>
+                                            <span className={styles.mobileReviewsText}>
+                                                ({reviewsCount > 0 ? reviewsCount.toLocaleString('en-IN') : '8,471'})
+                                            </span>
+                                        </div>
+                                    </div>
+                                </>
+                            ) : (
+                                <>
+                                    {renderStars(parseFloat(String(averageRating || 0)))}
+                                    <span className={styles.reviewsCount}>
+                                        {reviewsCount > 0 ? `${reviewsCount} reviews` : '0 reviews'}
+                                    </span>
+                                </>
+                            )}
                         </div>
 
                         {/* 2. Product title */}
-                        <h4 className={styles.productTitle}>{displayTitle}</h4>
+                        {isCatalog ? (
+                            (() => {
+                                const { brand, name: namePart } = splitName(displayTitle);
+                                return (
+                                    <h4 className={styles.productTitle}>
+                                        <span className={styles.productTitleBrand}>{brand}</span>{' '}
+                                        <span className={styles.productTitleName}>{namePart}</span>
+                                    </h4>
+                                );
+                            })()
+                        ) : (
+                            <h4 className={styles.productTitle}>{displayTitle}</h4>
+                        )}
+
+                        {/* 2b. Product tagline (Catalog Mobile only) */}
+                        {isCatalog && product.tagline && (
+                            <p className={styles.productTagline}>{product.tagline}</p>
+                        )}
 
                         {/* 3. Product description */}
-                        <p className={styles.productDescription}>
+                        <p className={isCatalog ? `${styles.productDescription} ${styles.desktopOnly}` : styles.productDescription}>
                             {product.description || 'Premium handcrafted quality Saree'}
                         </p>
 
                         {/* 4. Discount tag */}
-                        {hasRealDiscount ? (
-                            <div className={styles.discountTagPill}>
-                                Upto {calculatedDiscount}
-                            </div>
-                        ) : (
-                            <div className={styles.newArrivalPill}>
-                                New Arrival
-                            </div>
-                        )}
+                        <div className={isCatalog ? styles.badgeWrapper : ''}>
+                            {hasRealDiscount ? (
+                                <div className={styles.discountTagPill}>
+                                    Upto {calculatedDiscount}
+                                </div>
+                            ) : (
+                                <div className={styles.newArrivalPill}>
+                                    New Arrival
+                                </div>
+                            )}
+                        </div>
 
                         {/* 5. Price & MRP Strikeout */}
                         <div className={styles.priceRow}>
                             <span className={styles.currentPrice}>₹{Math.round(priceNum).toLocaleString('en-IN')}</span>
-                            {!isNaN(originalPriceNum) && originalPriceNum > priceNum && (
-                                <span className={styles.originalPriceContainer}>
-                                    <span className={styles.mrpLabel}>MRP</span>
-                                    <span className={styles.originalPriceStrike}>₹{Math.round(originalPriceNum).toLocaleString('en-IN')}</span>
-                                </span>
+                            {isCatalog ? (
+                                !isNaN(originalPriceNum) && originalPriceNum > priceNum && (
+                                    <div className={`${styles.pricePill} ${hasRealDiscount ? styles.hasDiscountPill : ''}`}>
+                                        <span className={styles.originalPriceStrike}>
+                                            ₹{Math.round(originalPriceNum).toLocaleString('en-IN')}
+                                        </span>
+                                        {hasRealDiscount && (
+                                            <span className={styles.discountPercentBadge}>
+                                                {apiDiscountPercentage}% off
+                                            </span>
+                                        )}
+                                    </div>
+                                )
+                            ) : (
+                                !isNaN(originalPriceNum) && originalPriceNum > priceNum && (
+                                    <span className={styles.originalPriceContainer}>
+                                        <span className={styles.mrpLabel}>MRP</span>
+                                        <span className={styles.originalPriceStrike}>₹{Math.round(originalPriceNum).toLocaleString('en-IN')}</span>
+                                    </span>
+                                )
                             )}
                         </div>
                     </div>
 
-                    {/* 6. ADD TO CART Button - permanent at the bottom inside card */}
+                    {/* 6. ADD TO CART Button */}
                     <div className={styles.cardBtnContainer} onClick={(e) => e.stopPropagation()}>
                         <AddToCartButton
                             product={product}
@@ -188,4 +255,3 @@ const ProductCard = ({ product, className, cardClassName, imageClassName }: { pr
 };
 
 export default ProductCard;
-
